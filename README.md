@@ -1,2 +1,4 @@
 # BDA_ProyectoUnidad3
-Proyecto Unidad 3
+Reservación de viaje en tren
+Christian Lafayette Martínez Pérez
+00000010383
