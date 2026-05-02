@@ -22,3 +22,10 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/ReservaTrenesMongoDB/target/
+/ReservaTrenesMongoDB/ReservaTrenes_DTOs/target/
+/ReservaTrenesMongoDB/ReservaTrenes_Exceptions/target/
+/ReservaTrenesMongoDB/ReservaTrenes_Dominio/target/
+/ReservaTrenesMongoDB/ReservaTrenes_Persistencia/target/
+/ReservaTrenesMongoDB/ReservaTrenes_Servicios/target/
+/ReservaTrenesMongoDB/ReservaTrenes_Presentacion/target/
