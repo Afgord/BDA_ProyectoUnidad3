@@ -37,6 +37,15 @@ public interface IBoletoDAO {
     Boleto buscarPorId(String id) throws PersistenciaException;
 
     /**
+     * Busca un boleto por su folio.
+     *
+     * @param folio Folio visible del boleto.
+     * @return Boleto encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    Boleto buscarPorFolio(String folio) throws PersistenciaException;
+
+    /**
      * Consulta todos los boletos registrados.
      *
      * @return Lista de boletos.
@@ -67,7 +76,8 @@ public interface IBoletoDAO {
      *
      * @param boleto Boleto con los datos actualizados.
      * @return true si el boleto fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     boolean actualizar(Boleto boleto) throws PersistenciaException;
 

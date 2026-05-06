@@ -33,8 +33,8 @@ import org.bson.types.ObjectId;
 /**
  * Implementación DAO para la colección boletos en MongoDB.
  *
- * Esta clase se encarga de realizar operaciones CRUD sobre la colección boletos,
- * convirtiendo entre objetos Boleto y documentos BSON.
+ * Esta clase se encarga de realizar operaciones CRUD sobre la colección
+ * boletos, convirtiendo entre objetos Boleto y documentos BSON.
  *
  * @author Afgord
  */
@@ -62,10 +62,16 @@ public class BoletoDAO implements IBoletoDAO {
     /**
      * Crea los índices necesarios para la colección de boletos.
      *
-     * El índice único evita registrar más de un boleto para el mismo pasajero en
-     * el mismo viaje.
+     * El índice único sobre folio evita registrar dos boletos con el mismo
+     * folio. El índice compuesto evita registrar más de un boleto para el mismo
+     * pasajero en el mismo viaje.
      */
     private void crearIndices() {
+        collection.createIndex(
+                Indexes.ascending("folio"),
+                new IndexOptions().unique(true)
+        );
+
         collection.createIndex(
                 Indexes.compoundIndex(
                         Indexes.ascending("pasajeroId"),
@@ -97,7 +103,8 @@ public class BoletoDAO implements IBoletoDAO {
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe un boleto registrado para el mismo pasajero y viaje.", e);
+                        "Ya existe un boleto registrado con el mismo folio "
+                        + "o para el mismo pasajero y viaje.", e);
             }
 
             throw new PersistenciaException("Error al insertar el boleto.", e);
@@ -133,6 +140,31 @@ public class BoletoDAO implements IBoletoDAO {
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el boleto por id.", e);
+        }
+    }
+
+    /**
+     * Busca un boleto por su folio.
+     *
+     * @param folio Folio visible del boleto.
+     * @return Boleto encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    @Override
+    public Boleto buscarPorFolio(String folio) throws PersistenciaException {
+        try {
+            Document documento = collection.find(
+                    Filters.eq("folio", folio)
+            ).first();
+
+            if (documento == null) {
+                return null;
+            }
+
+            return convertirAEntidad(documento);
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar el boleto por folio.", e);
         }
     }
 
@@ -227,6 +259,7 @@ public class BoletoDAO implements IBoletoDAO {
             var resultado = collection.updateOne(
                     Filters.eq("_id", new ObjectId(boleto.getId())),
                     Updates.combine(
+                            Updates.set("folio", boleto.getFolio()),
                             Updates.set("pasajeroId", boleto.getPasajeroId()),
                             Updates.set("viajeId", boleto.getViajeId()),
                             Updates.set("pasajeroResumen",
@@ -255,7 +288,8 @@ public class BoletoDAO implements IBoletoDAO {
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe otro boleto registrado para el mismo pasajero y viaje.", e);
+                        "Ya existe otro boleto registrado con el mismo folio "
+                        + "o para el mismo pasajero y viaje.", e);
             }
 
             throw new PersistenciaException("Error al actualizar el boleto.", e);
@@ -298,6 +332,7 @@ public class BoletoDAO implements IBoletoDAO {
      */
     private Document convertirADocumento(Boleto boleto) {
         return new Document()
+                .append("folio", boleto.getFolio())
                 .append("pasajeroId", boleto.getPasajeroId())
                 .append("viajeId", boleto.getViajeId())
                 .append("pasajeroResumen",
@@ -309,8 +344,8 @@ public class BoletoDAO implements IBoletoDAO {
                 .append("tipoBoleto",
                         convertirTipoBoletoADocumento(
                                 boleto.getTipoBoleto()))
-                .append("estatus", convertirEstatusAString(
-                        boleto.getEstatus()))
+                .append("estatus",
+                        convertirEstatusAString(boleto.getEstatus()))
                 .append("fechaReservacion",
                         convertirInstantADate(boleto.getFechaReservacion()))
                 .append("fechaCancelacion",
@@ -331,6 +366,7 @@ public class BoletoDAO implements IBoletoDAO {
             boleto.setId(id.toHexString());
         }
 
+        boleto.setFolio(documento.getString("folio"));
         boleto.setPasajeroId(documento.getString("pasajeroId"));
         boleto.setViajeId(documento.getString("viajeId"));
 

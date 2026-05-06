@@ -23,7 +23,7 @@ import java.util.List;
  * Clase de prueba manual para validar las operaciones CRUD de BoletoDAO.
  *
  * Esta clase permite comprobar la inserción, búsqueda, actualización, listado
- * y eliminación de boletos en MongoDB, incluyendo documentos embebidos,
+ * y eliminación de boletos en MongoDB, incluyendo folio, documentos embebidos,
  * fechas y precios Decimal128.
  *
  * @author Afgord
@@ -70,6 +70,7 @@ public class PruebaBoletoDAO {
             // 4. Crear boleto
             Boleto boleto = new Boleto();
 
+            boleto.setFolio("BOL-12345");
             boleto.setPasajeroId("662f1d000000000000000001");
             boleto.setViajeId("662f1c000000000000000001");
             boleto.setPasajeroResumen(pasajeroResumen);
@@ -85,12 +86,18 @@ public class PruebaBoletoDAO {
             imprimirBoleto(insertado);
 
             // 5. Buscar por id
-            Boleto encontrado = boletoDAO.buscarPorId(insertado.getId());
+            Boleto encontradoPorId = boletoDAO.buscarPorId(insertado.getId());
 
             System.out.println("\nBoleto encontrado por id:");
-            imprimirBoleto(encontrado);
+            imprimirBoleto(encontradoPorId);
 
-            // 6. Buscar por pasajeroId
+            // 6. Buscar por folio
+            Boleto encontradoPorFolio = boletoDAO.buscarPorFolio("BOL-12345");
+
+            System.out.println("\nBoleto encontrado por folio:");
+            imprimirBoleto(encontradoPorFolio);
+
+            // 7. Buscar por pasajeroId
             List<Boleto> boletosPasajero = boletoDAO.buscarPorPasajeroId(
                     insertado.getPasajeroId()
             );
@@ -101,7 +108,7 @@ public class PruebaBoletoDAO {
                 System.out.println("-----------------------------");
             }
 
-            // 7. Buscar por viajeId
+            // 8. Buscar por viajeId
             List<Boleto> boletosViaje = boletoDAO.buscarPorViajeId(
                     insertado.getViajeId()
             );
@@ -112,20 +119,20 @@ public class PruebaBoletoDAO {
                 System.out.println("-----------------------------");
             }
 
-            // 8. Actualizar boleto: simular cancelacion
-            encontrado.setEstatus(EstatusBoleto.CANCELADO);
-            encontrado.setFechaCancelacion(Instant.parse("2026-05-02T12:00:00Z"));
+            // 9. Actualizar boleto: simular cancelacion
+            encontradoPorId.setEstatus(EstatusBoleto.CANCELADO);
+            encontradoPorId.setFechaCancelacion(Instant.parse("2026-05-02T12:00:00Z"));
 
-            boolean actualizado = boletoDAO.actualizar(encontrado);
+            boolean actualizado = boletoDAO.actualizar(encontradoPorId);
 
             System.out.println("\nBoleto actualizado?: " + actualizado);
 
-            Boleto despuesActualizar = boletoDAO.buscarPorId(encontrado.getId());
+            Boleto despuesActualizar = boletoDAO.buscarPorId(encontradoPorId.getId());
 
             System.out.println("\nBoleto despues de actualizar:");
             imprimirBoleto(despuesActualizar);
 
-            // 9. Listar todos
+            // 10. Listar todos
             List<Boleto> boletos = boletoDAO.buscarTodos();
 
             System.out.println("\nBoletos registrados:");
@@ -134,7 +141,7 @@ public class PruebaBoletoDAO {
                 System.out.println("-----------------------------");
             }
 
-            // 10. Eliminar boleto de prueba
+            // 11. Eliminar boleto de prueba
             boolean eliminado = boletoDAO.eliminar(insertado.getId());
 
             System.out.println("\nBoleto eliminado?: " + eliminado);
@@ -171,6 +178,7 @@ public class PruebaBoletoDAO {
         }
 
         System.out.println("ID: " + boleto.getId());
+        System.out.println("Folio: " + boleto.getFolio());
         System.out.println("Pasajero ID: " + boleto.getPasajeroId());
         System.out.println("Viaje ID: " + boleto.getViajeId());
 
