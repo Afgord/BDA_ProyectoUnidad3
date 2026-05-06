@@ -5,9 +5,28 @@
 package itson.reservatrenesmongodb.dtos;
 
 /**
+ * DTO utilizado para solicitar la cancelación de un boleto.
  *
- * @author cmartinez
+ * Transporta el folio visible del boleto que el operador desea cancelar.
+ *
+ * @author Afgord
  */
 public class CancelacionBoletoDTO {
-    
+
+    private String folio;
+
+    public CancelacionBoletoDTO() {
+    }
+
+    public CancelacionBoletoDTO(String folio) {
+        this.folio = folio;
+    }
+
+    public String getFolio() {
+        return folio;
+    }
+
+    public void setFolio(String folio) {
+        this.folio = folio;
+    }
 }
