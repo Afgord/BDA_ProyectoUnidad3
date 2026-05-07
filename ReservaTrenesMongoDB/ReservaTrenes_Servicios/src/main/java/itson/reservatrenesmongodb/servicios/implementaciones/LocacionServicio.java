@@ -13,12 +13,13 @@ import itson.reservatrenesmongodb.persistencia.interfaces.ILocacionDAO;
 import itson.reservatrenesmongodb.servicios.interfaces.ILocacionServicio;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Implementación del servicio de locaciones.
  *
- * Esta clase contiene validaciones y reglas necesarias antes de interactuar
- * con la capa de persistencia.
+ * Esta clase contiene validaciones y reglas necesarias antes de interactuar con
+ * la capa de persistencia.
  *
  * @author Afgord
  */
@@ -35,6 +36,10 @@ public class LocacionServicio implements ILocacionServicio {
     public LocacionServicio() {
         this.locacionDAO = new LocacionDAO();
     }
+
+    private static final Pattern PATRON_CLAVE_LOCACION = Pattern.compile(
+            "^[A-Z]{3,5}$"
+    );
 
     /**
      * Registra una nueva locación.
@@ -274,6 +279,13 @@ public class LocacionServicio implements ILocacionServicio {
 
         if (estaVacio(locacionDTO.getClave())) {
             throw new ServicioException("La clave de la locación es obligatoria.");
+        }
+
+        String claveNormalizada = normalizarClave(locacionDTO.getClave());
+
+        if (!PATRON_CLAVE_LOCACION.matcher(claveNormalizada).matches()) {
+            throw new ServicioException(
+                    "La clave de la locación debe contener entre 3 y 5 letras.");
         }
 
         if (estaVacio(locacionDTO.getNombre())) {

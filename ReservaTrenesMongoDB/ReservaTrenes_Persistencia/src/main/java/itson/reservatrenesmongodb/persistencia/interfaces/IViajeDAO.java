@@ -6,6 +6,7 @@ package itson.reservatrenesmongodb.persistencia.interfaces;
 
 import itson.reservatrenesmongodb.dominio.Viaje;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -49,7 +50,8 @@ public interface IViajeDAO {
      *
      * @param viaje Viaje con los datos actualizados.
      * @return true si el viaje fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     boolean actualizar(Viaje viaje) throws PersistenciaException;
 
@@ -61,4 +63,15 @@ public interface IViajeDAO {
      * @throws PersistenciaException Si ocurre un error durante la eliminación.
      */
     boolean eliminar(String id) throws PersistenciaException;
+
+    /**
+     * Busca un viaje por tren y fecha/hora de salida.
+     *
+     * @param trenId Identificador del tren.
+     * @param fechaHoraSalida Fecha y hora de salida.
+     * @return Viaje encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    Viaje buscarPorTrenYFechaSalida(String trenId, Instant fechaHoraSalida)
+            throws PersistenciaException;
 }

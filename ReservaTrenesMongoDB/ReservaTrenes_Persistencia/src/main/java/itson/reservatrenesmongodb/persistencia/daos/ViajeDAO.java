@@ -10,25 +10,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.Updates;
 import itson.reservatrenesmongodb.conexion.MongoDBConnection;
-import itson.reservatrenesmongodb.dominio.Capacidad;
-import itson.reservatrenesmongodb.dominio.Disponibilidad;
-import itson.reservatrenesmongodb.dominio.LocacionResumen;
-import itson.reservatrenesmongodb.dominio.RutaViaje;
-import itson.reservatrenesmongodb.dominio.TrenResumen;
 import itson.reservatrenesmongodb.dominio.Viaje;
-import static itson.reservatrenesmongodb.dominio.enums.EstatusBoleto.CANCELADO;
-import itson.reservatrenesmongodb.dominio.enums.EstatusViaje;
-import static itson.reservatrenesmongodb.dominio.enums.EstatusViaje.FINALIZADO;
-import static itson.reservatrenesmongodb.dominio.enums.EstatusViaje.PROGRAMADO;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
 import itson.reservatrenesmongodb.persistencia.interfaces.IViajeDAO;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -170,7 +158,8 @@ public class ViajeDAO implements IViajeDAO {
      *
      * @param viaje Viaje con datos actualizados.
      * @return true si el viaje fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public boolean actualizar(Viaje viaje) throws PersistenciaException {
@@ -222,6 +211,31 @@ public class ViajeDAO implements IViajeDAO {
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al eliminar el viaje.", e);
+        }
+    }
+
+    /**
+     * Busca un viaje por tren y fecha/hora de salida.
+     *
+     * @param trenId Identificador del tren.
+     * @param fechaHoraSalida Fecha y hora de salida.
+     * @return Viaje encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    @Override
+    public Viaje buscarPorTrenYFechaSalida(String trenId, Instant fechaHoraSalida)
+            throws PersistenciaException {
+        try {
+            return collection.find(
+                    Filters.and(
+                            Filters.eq(CAMPO_TREN_ID, trenId),
+                            Filters.eq(CAMPO_FECHA_HORA_SALIDA, fechaHoraSalida)
+                    )
+            ).first();
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al buscar el viaje por tren y fecha de salida.", e);
         }
     }
 }

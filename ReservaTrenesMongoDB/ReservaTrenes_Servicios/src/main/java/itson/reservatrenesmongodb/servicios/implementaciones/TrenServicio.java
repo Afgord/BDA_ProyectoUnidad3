@@ -15,12 +15,13 @@ import itson.reservatrenesmongodb.persistencia.interfaces.ITrenDAO;
 import itson.reservatrenesmongodb.servicios.interfaces.ITrenServicio;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Implementación del servicio de trenes.
  *
- * Esta clase contiene validaciones y reglas necesarias antes de interactuar
- * con la capa de persistencia.
+ * Esta clase contiene validaciones y reglas necesarias antes de interactuar con
+ * la capa de persistencia.
  *
  * @author Afgord
  */
@@ -31,6 +32,10 @@ public class TrenServicio implements ITrenServicio {
     public TrenServicio() {
         this.trenDAO = new TrenDAO();
     }
+
+    private static final Pattern PATRON_CODIGO_TREN = Pattern.compile(
+            "^[A-Z0-9-]{3,20}$"
+    );
 
     @Override
     public TrenDTO registrar(TrenDTO trenDTO) throws ServicioException {
@@ -211,6 +216,13 @@ public class TrenServicio implements ITrenServicio {
 
         if (estaVacio(trenDTO.getCodigo())) {
             throw new ServicioException("El código del tren es obligatorio.");
+        }
+
+        String codigoNormalizado = normalizarCodigo(trenDTO.getCodigo());
+
+        if (!PATRON_CODIGO_TREN.matcher(codigoNormalizado).matches()) {
+            throw new ServicioException(
+                    "El código del tren solo puede contener letras, números y guiones, con longitud de 3 a 20 caracteres.");
         }
 
         if (estaVacio(trenDTO.getNombre())) {
