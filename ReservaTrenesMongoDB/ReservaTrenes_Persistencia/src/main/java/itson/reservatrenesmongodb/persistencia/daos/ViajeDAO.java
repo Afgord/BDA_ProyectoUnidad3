@@ -34,8 +34,8 @@ import org.bson.types.ObjectId;
 /**
  * Implementación DAO para la colección viajes en MongoDB.
  *
- * Esta clase se encarga de realizar operaciones CRUD sobre la colección viajes,
- * convirtiendo entre objetos Viaje y documentos BSON.
+ * Esta clase utiliza colecciones tipadas con PojoCodecProvider para mapear
+ * automáticamente objetos Viaje hacia documentos BSON.
  *
  * @author Afgord
  */
@@ -47,16 +47,33 @@ public class ViajeDAO implements IViajeDAO {
     private static final String COLECCION = "viajes";
 
     /**
-     * Colección de MongoDB utilizada por este DAO.
+     * Campo BSON que representa el identificador del tren dentro del documento
+     * embebido tren.
+     *
+     * Si en TrenResumen usaste @BsonProperty("tren_id"), este valor debe ser
+     * "tren.tren_id".
      */
-    private final MongoCollection<Document> collection;
+    private static final String CAMPO_TREN_ID = "tren.tren_id";
+
+    /**
+     * Campo BSON que representa la fecha y hora de salida.
+     *
+     * Si en Viaje usaste @BsonProperty("fecha_hora_salida"), este valor debe
+     * ser "fecha_hora_salida".
+     */
+    private static final String CAMPO_FECHA_HORA_SALIDA = "fecha_hora_salida";
+
+    /**
+     * Colección tipada de MongoDB utilizada por este DAO.
+     */
+    private final MongoCollection<Viaje> collection;
 
     /**
      * Constructor que obtiene la colección viajes desde la conexión Singleton.
      */
     public ViajeDAO() {
         MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
-        this.collection = database.getCollection(COLECCION);
+        this.collection = database.getCollection(COLECCION, Viaje.class);
         crearIndices();
     }
 
@@ -69,8 +86,8 @@ public class ViajeDAO implements IViajeDAO {
     private void crearIndices() {
         collection.createIndex(
                 Indexes.compoundIndex(
-                        Indexes.ascending("tren.trenId"),
-                        Indexes.ascending("fechaHoraSalida")
+                        Indexes.ascending(CAMPO_TREN_ID),
+                        Indexes.ascending(CAMPO_FECHA_HORA_SALIDA)
                 ),
                 new IndexOptions().unique(true)
         );
@@ -86,19 +103,14 @@ public class ViajeDAO implements IViajeDAO {
     @Override
     public Viaje insertar(Viaje viaje) throws PersistenciaException {
         try {
-            Document documento = convertirADocumento(viaje);
-
-            collection.insertOne(documento);
-
-            ObjectId idGenerado = documento.getObjectId("_id");
-            viaje.setId(idGenerado.toHexString());
-
+            collection.insertOne(viaje);
             return viaje;
 
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe un viaje registrado para el mismo tren en la misma fecha y hora de salida.", e);
+                        "Ya existe un viaje registrado para el mismo tren "
+                        + "en la misma fecha y hora de salida.", e);
             }
 
             throw new PersistenciaException("Error al insertar el viaje.", e);
@@ -122,15 +134,9 @@ public class ViajeDAO implements IViajeDAO {
                 return null;
             }
 
-            Document documento = collection.find(
+            return collection.find(
                     Filters.eq("_id", new ObjectId(id))
             ).first();
-
-            if (documento == null) {
-                return null;
-            }
-
-            return convertirAEntidad(documento);
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el viaje por id.", e);
@@ -148,8 +154,8 @@ public class ViajeDAO implements IViajeDAO {
         try {
             List<Viaje> viajes = new ArrayList<>();
 
-            for (Document documento : collection.find()) {
-                viajes.add(convertirAEntidad(documento));
+            for (Viaje viaje : collection.find()) {
+                viajes.add(viaje);
             }
 
             return viajes;
@@ -173,17 +179,9 @@ public class ViajeDAO implements IViajeDAO {
                 return false;
             }
 
-            var resultado = collection.updateOne(
+            var resultado = collection.replaceOne(
                     Filters.eq("_id", new ObjectId(viaje.getId())),
-                    Updates.combine(
-                            Updates.set("tren", convertirTrenResumenADocumento(viaje.getTren())),
-                            Updates.set("ruta", convertirRutaViajeADocumento(viaje.getRuta())),
-                            Updates.set("fechaHoraSalida", convertirInstantADate(viaje.getFechaHoraSalida())),
-                            Updates.set("fechaHoraLlegadaEstimada", convertirInstantADate(viaje.getFechaHoraLlegadaEstimada())),
-                            Updates.set("estatus", convertirEstatusAString(viaje.getEstatus())),
-                            Updates.set("capacidadMaxima", convertirCapacidadADocumento(viaje.getCapacidadMaxima())),
-                            Updates.set("disponibilidad", convertirDisponibilidadADocumento(viaje.getDisponibilidad()))
-                    )
+                    viaje
             );
 
             return resultado.getModifiedCount() > 0;
@@ -191,7 +189,8 @@ public class ViajeDAO implements IViajeDAO {
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe otro viaje registrado para el mismo tren en la misma fecha y hora de salida.", e);
+                        "Ya existe otro viaje registrado para el mismo tren "
+                        + "en la misma fecha y hora de salida.", e);
             }
 
             throw new PersistenciaException("Error al actualizar el viaje.", e);
@@ -224,332 +223,5 @@ public class ViajeDAO implements IViajeDAO {
         } catch (Exception e) {
             throw new PersistenciaException("Error al eliminar el viaje.", e);
         }
-    }
-
-    /**
-     * Convierte una entidad Viaje a un documento BSON para MongoDB.
-     *
-     * @param viaje Viaje a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirADocumento(Viaje viaje) {
-        return new Document()
-                .append("tren", convertirTrenResumenADocumento(viaje.getTren()))
-                .append("ruta", convertirRutaViajeADocumento(viaje.getRuta()))
-                .append("fechaHoraSalida", convertirInstantADate(viaje.getFechaHoraSalida()))
-                .append("fechaHoraLlegadaEstimada", convertirInstantADate(viaje.getFechaHoraLlegadaEstimada()))
-                .append("estatus", convertirEstatusAString(viaje.getEstatus()))
-                .append("capacidadMaxima", convertirCapacidadADocumento(viaje.getCapacidadMaxima()))
-                .append("disponibilidad", convertirDisponibilidadADocumento(viaje.getDisponibilidad()));
-    }
-
-    /**
-     * Convierte un documento BSON de MongoDB a una entidad Viaje.
-     *
-     * @param documento Documento BSON.
-     * @return Entidad Viaje.
-     */
-    private Viaje convertirAEntidad(Document documento) {
-        Viaje viaje = new Viaje();
-
-        ObjectId id = documento.getObjectId("_id");
-        if (id != null) {
-            viaje.setId(id.toHexString());
-        }
-
-        viaje.setTren(convertirDocumentoATrenResumen(
-                documento.get("tren", Document.class)
-        ));
-
-        viaje.setRuta(convertirDocumentoARutaViaje(
-                documento.get("ruta", Document.class)
-        ));
-
-        viaje.setFechaHoraSalida(convertirDateAInstant(
-                documento.getDate("fechaHoraSalida")
-        ));
-
-        viaje.setFechaHoraLlegadaEstimada(convertirDateAInstant(
-                documento.getDate("fechaHoraLlegadaEstimada")
-        ));
-
-        viaje.setEstatus(convertirStringAEstatus(documento.getString("estatus")));
-
-        viaje.setCapacidadMaxima(convertirDocumentoACapacidad(
-                documento.get("capacidadMaxima", Document.class)
-        ));
-
-        viaje.setDisponibilidad(convertirDocumentoADisponibilidad(
-                documento.get("disponibilidad", Document.class)
-        ));
-
-        return viaje;
-    }
-
-    /**
-     * Convierte un TrenResumen a documento BSON.
-     *
-     * @param tren TrenResumen a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirTrenResumenADocumento(TrenResumen tren) {
-        if (tren == null) {
-            return new Document()
-                    .append("trenId", null)
-                    .append("codigo", null)
-                    .append("nombre", null);
-        }
-
-        return new Document()
-                .append("trenId", tren.getTrenId())
-                .append("codigo", tren.getCodigo())
-                .append("nombre", tren.getNombre());
-    }
-
-    /**
-     * Convierte un documento BSON a TrenResumen.
-     *
-     * @param documento Documento BSON.
-     * @return TrenResumen.
-     */
-    private TrenResumen convertirDocumentoATrenResumen(Document documento) {
-        if (documento == null) {
-            return new TrenResumen();
-        }
-
-        TrenResumen tren = new TrenResumen();
-
-        tren.setTrenId(documento.getString("trenId"));
-        tren.setCodigo(documento.getString("codigo"));
-        tren.setNombre(documento.getString("nombre"));
-
-        return tren;
-    }
-
-    /**
-     * Convierte una RutaViaje a documento BSON.
-     *
-     * @param ruta RutaViaje a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirRutaViajeADocumento(RutaViaje ruta) {
-        if (ruta == null) {
-            return new Document()
-                    .append("origen", convertirLocacionResumenADocumento(null))
-                    .append("destino", convertirLocacionResumenADocumento(null));
-        }
-
-        return new Document()
-                .append("origen", convertirLocacionResumenADocumento(ruta.getOrigen()))
-                .append("destino", convertirLocacionResumenADocumento(ruta.getDestino()));
-    }
-
-    /**
-     * Convierte un documento BSON a RutaViaje.
-     *
-     * @param documento Documento BSON.
-     * @return RutaViaje.
-     */
-    private RutaViaje convertirDocumentoARutaViaje(Document documento) {
-        if (documento == null) {
-            return new RutaViaje();
-        }
-
-        RutaViaje ruta = new RutaViaje();
-
-        ruta.setOrigen(convertirDocumentoALocacionResumen(
-                documento.get("origen", Document.class)
-        ));
-
-        ruta.setDestino(convertirDocumentoALocacionResumen(
-                documento.get("destino", Document.class)
-        ));
-
-        return ruta;
-    }
-
-    /**
-     * Convierte una LocacionResumen a documento BSON.
-     *
-     * @param locacion LocacionResumen a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirLocacionResumenADocumento(LocacionResumen locacion) {
-        if (locacion == null) {
-            return new Document()
-                    .append("locacionId", null)
-                    .append("nombre", null);
-        }
-
-        return new Document()
-                .append("locacionId", locacion.getLocacionId())
-                .append("nombre", locacion.getNombre());
-    }
-
-    /**
-     * Convierte un documento BSON a LocacionResumen.
-     *
-     * @param documento Documento BSON.
-     * @return LocacionResumen.
-     */
-    private LocacionResumen convertirDocumentoALocacionResumen(Document documento) {
-        if (documento == null) {
-            return new LocacionResumen();
-        }
-
-        LocacionResumen locacion = new LocacionResumen();
-
-        locacion.setLocacionId(documento.getString("locacionId"));
-        locacion.setNombre(documento.getString("nombre"));
-
-        return locacion;
-    }
-
-    /**
-     * Convierte un objeto Capacidad a documento BSON.
-     *
-     * @param capacidad Capacidad a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirCapacidadADocumento(Capacidad capacidad) {
-        if (capacidad == null) {
-            return new Document()
-                    .append("general", 0)
-                    .append("primeraClase", 0);
-        }
-
-        return new Document()
-                .append("general", capacidad.getGeneral())
-                .append("primeraClase", capacidad.getPrimeraClase());
-    }
-
-    /**
-     * Convierte un documento BSON a objeto Capacidad.
-     *
-     * @param documento Documento BSON.
-     * @return Capacidad.
-     */
-    private Capacidad convertirDocumentoACapacidad(Document documento) {
-        if (documento == null) {
-            return new Capacidad();
-        }
-
-        Capacidad capacidad = new Capacidad();
-
-        capacidad.setGeneral(documento.getInteger("general", 0));
-        capacidad.setPrimeraClase(documento.getInteger("primeraClase", 0));
-
-        return capacidad;
-    }
-
-    /**
-     * Convierte una Disponibilidad a documento BSON.
-     *
-     * @param disponibilidad Disponibilidad a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirDisponibilidadADocumento(Disponibilidad disponibilidad) {
-        if (disponibilidad == null) {
-            return new Document()
-                    .append("general", 0)
-                    .append("primeraClase", 0);
-        }
-
-        return new Document()
-                .append("general", disponibilidad.getGeneral())
-                .append("primeraClase", disponibilidad.getPrimeraClase());
-    }
-
-    /**
-     * Convierte un documento BSON a Disponibilidad.
-     *
-     * @param documento Documento BSON.
-     * @return Disponibilidad.
-     */
-    private Disponibilidad convertirDocumentoADisponibilidad(Document documento) {
-        if (documento == null) {
-            return new Disponibilidad();
-        }
-
-        Disponibilidad disponibilidad = new Disponibilidad();
-
-        disponibilidad.setGeneral(documento.getInteger("general", 0));
-        disponibilidad.setPrimeraClase(documento.getInteger("primeraClase", 0));
-
-        return disponibilidad;
-    }
-
-    /**
-     * Convierte el enum EstatusViaje a texto para almacenarlo en MongoDB.
-     *
-     * @param estatus Estatus del viaje.
-     * @return Texto equivalente.
-     */
-    private String convertirEstatusAString(EstatusViaje estatus) {
-        if (estatus == null) {
-            return null;
-        }
-
-        switch (estatus) {
-            case PROGRAMADO:
-                return "Programado";
-            case FINALIZADO:
-                return "Finalizado";
-            case CANCELADO:
-                return "Cancelado";
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * Convierte el texto almacenado en MongoDB al enum EstatusViaje.
-     *
-     * @param estatus Texto del estatus.
-     * @return Enum EstatusViaje correspondiente.
-     */
-    private EstatusViaje convertirStringAEstatus(String estatus) {
-        if (estatus == null) {
-            return null;
-        }
-
-        switch (estatus) {
-            case "Programado":
-                return EstatusViaje.PROGRAMADO;
-            case "Finalizado":
-                return EstatusViaje.FINALIZADO;
-            case "Cancelado":
-                return EstatusViaje.CANCELADO;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * Convierte un Instant a Date para almacenarlo como ISODate en MongoDB.
-     *
-     * @param instant Fecha en formato Instant.
-     * @return Fecha en formato Date.
-     */
-    private Date convertirInstantADate(Instant instant) {
-        if (instant == null) {
-            return null;
-        }
-
-        return Date.from(instant);
-    }
-
-    /**
-     * Convierte un Date de MongoDB a Instant.
-     *
-     * @param date Fecha en formato Date.
-     * @return Fecha en formato Instant.
-     */
-    private Instant convertirDateAInstant(Date date) {
-        if (date == null) {
-            return null;
-        }
-
-        return date.toInstant();
     }
 }

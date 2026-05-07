@@ -4,6 +4,7 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+
 /**
  * Clase que representa la ruta de un viaje, formada por una locación de origen
  * y una locación de destino.

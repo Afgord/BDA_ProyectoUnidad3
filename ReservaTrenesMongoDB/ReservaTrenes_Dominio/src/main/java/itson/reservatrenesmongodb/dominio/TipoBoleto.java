@@ -7,6 +7,9 @@ package itson.reservatrenesmongodb.dominio;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  * Clase que representa el tipo de boleto adquirido por un pasajero.

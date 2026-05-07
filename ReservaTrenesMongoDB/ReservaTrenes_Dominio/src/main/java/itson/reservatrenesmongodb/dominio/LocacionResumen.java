@@ -4,6 +4,8 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 /**
  * Clase que representa un resumen de una locación dentro de una ruta de viaje.
  *
@@ -17,6 +19,7 @@ public class LocacionResumen {
     /**
      * Identificador de la locación referenciada.
      */
+    @BsonProperty("locacion_id")
     private String locacionId;
 
     /**

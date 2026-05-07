@@ -4,6 +4,8 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 /**
  * Clase que representa la capacidad de lugares disponibles por tipo dentro de
  * un tren o viaje.
@@ -23,6 +25,7 @@ public class Capacidad {
     /**
      * Cantidad de lugares de primera clase.
      */
+    @BsonProperty("primera_clase")
     private int primeraClase;
 
     /**

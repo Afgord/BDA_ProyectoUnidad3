@@ -10,21 +10,19 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.Updates;
 import itson.reservatrenesmongodb.conexion.MongoDBConnection;
 import itson.reservatrenesmongodb.dominio.Locacion;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
 import itson.reservatrenesmongodb.persistencia.interfaces.ILocacionDAO;
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
  * Implementación DAO para la colección locaciones en MongoDB.
  *
- * Esta clase se encarga de realizar operaciones CRUD sobre la colección
- * locaciones, convirtiendo entre objetos Locacion y documentos BSON.
+ * Esta clase utiliza colecciones tipadas con PojoCodecProvider para mapear
+ * automáticamente objetos Locacion hacia documentos BSON.
  *
  * @author Afgord
  */
@@ -36,9 +34,9 @@ public class LocacionDAO implements ILocacionDAO {
     private static final String COLECCION = "locaciones";
 
     /**
-     * Colección de MongoDB utilizada por este DAO.
+     * Colección tipada de MongoDB utilizada por este DAO.
      */
-    private final MongoCollection<Document> collection;
+    private final MongoCollection<Locacion> collection;
 
     /**
      * Constructor que obtiene la colección locaciones desde la conexión
@@ -46,8 +44,21 @@ public class LocacionDAO implements ILocacionDAO {
      */
     public LocacionDAO() {
         MongoDatabase database = MongoDBConnection.getInstance().getDatabase();
-        this.collection = database.getCollection(COLECCION);
+        this.collection = database.getCollection(COLECCION, Locacion.class);
         crearIndices();
+    }
+
+    /**
+     * Crea los índices necesarios para la colección de locaciones.
+     *
+     * El índice único sobre clave evita registrar dos locaciones con la misma
+     * clave.
+     */
+    private void crearIndices() {
+        collection.createIndex(
+                Indexes.ascending("clave"),
+                new IndexOptions().unique(true)
+        );
     }
 
     /**
@@ -60,13 +71,7 @@ public class LocacionDAO implements ILocacionDAO {
     @Override
     public Locacion insertar(Locacion locacion) throws PersistenciaException {
         try {
-            Document documento = convertirADocumento(locacion);
-
-            collection.insertOne(documento);
-
-            ObjectId idGenerado = documento.getObjectId("_id");
-            locacion.setId(idGenerado.toHexString());
-
+            collection.insertOne(locacion);
             return locacion;
 
         } catch (MongoWriteException e) {
@@ -96,15 +101,9 @@ public class LocacionDAO implements ILocacionDAO {
                 return null;
             }
 
-            Document documento = collection.find(
+            return collection.find(
                     Filters.eq("_id", new ObjectId(id))
             ).first();
-
-            if (documento == null) {
-                return null;
-            }
-
-            return convertirAEntidad(documento);
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar la locación por id.", e);
@@ -121,15 +120,9 @@ public class LocacionDAO implements ILocacionDAO {
     @Override
     public Locacion buscarPorClave(String clave) throws PersistenciaException {
         try {
-            Document documento = collection.find(
+            return collection.find(
                     Filters.eq("clave", clave)
             ).first();
-
-            if (documento == null) {
-                return null;
-            }
-
-            return convertirAEntidad(documento);
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar la locación por clave.", e);
@@ -147,8 +140,8 @@ public class LocacionDAO implements ILocacionDAO {
         try {
             List<Locacion> locaciones = new ArrayList<>();
 
-            for (Document documento : collection.find()) {
-                locaciones.add(convertirAEntidad(documento));
+            for (Locacion locacion : collection.find()) {
+                locaciones.add(locacion);
             }
 
             return locaciones;
@@ -163,8 +156,7 @@ public class LocacionDAO implements ILocacionDAO {
      *
      * @param locacion Locación con datos actualizados.
      * @return true si la locación fue actualizada, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la
-     * actualización.
+     * @throws PersistenciaException Si ocurre un error durante la actualización.
      */
     @Override
     public boolean actualizar(Locacion locacion) throws PersistenciaException {
@@ -173,15 +165,9 @@ public class LocacionDAO implements ILocacionDAO {
                 return false;
             }
 
-            var resultado = collection.updateOne(
+            var resultado = collection.replaceOne(
                     Filters.eq("_id", new ObjectId(locacion.getId())),
-                    Updates.combine(
-                            Updates.set("clave", locacion.getClave()),
-                            Updates.set("nombre", locacion.getNombre()),
-                            Updates.set("estado", locacion.getEstado()),
-                            Updates.set("pais", locacion.getPais()),
-                            Updates.set("activa", locacion.isActiva())
-                    )
+                    locacion
             );
 
             return resultado.getModifiedCount() > 0;
@@ -222,56 +208,5 @@ public class LocacionDAO implements ILocacionDAO {
         } catch (Exception e) {
             throw new PersistenciaException("Error al eliminar la locación.", e);
         }
-    }
-
-    /**
-     * Convierte una entidad Locacion a un documento BSON para MongoDB.
-     *
-     * @param locacion Locación a convertir.
-     * @return Documento BSON.
-     */
-    private Document convertirADocumento(Locacion locacion) {
-        return new Document()
-                .append("clave", locacion.getClave())
-                .append("nombre", locacion.getNombre())
-                .append("estado", locacion.getEstado())
-                .append("pais", locacion.getPais())
-                .append("activa", locacion.isActiva());
-    }
-
-    /**
-     * Convierte un documento BSON de MongoDB a una entidad Locacion.
-     *
-     * @param documento Documento BSON.
-     * @return Entidad Locacion.
-     */
-    private Locacion convertirAEntidad(Document documento) {
-        Locacion locacion = new Locacion();
-
-        ObjectId id = documento.getObjectId("_id");
-        if (id != null) {
-            locacion.setId(id.toHexString());
-        }
-
-        locacion.setClave(documento.getString("clave"));
-        locacion.setNombre(documento.getString("nombre"));
-        locacion.setEstado(documento.getString("estado"));
-        locacion.setPais(documento.getString("pais"));
-        locacion.setActiva(documento.getBoolean("activa", false));
-
-        return locacion;
-    }
-
-    /**
-     * Crea los índices necesarios para la colección de locaciones.
-     *
-     * El índice único sobre clave evita registrar dos locaciones con la misma
-     * clave.
-     */
-    private void crearIndices() {
-        collection.createIndex(
-                Indexes.ascending("clave"),
-                new IndexOptions().unique(true)
-        );
     }
 }

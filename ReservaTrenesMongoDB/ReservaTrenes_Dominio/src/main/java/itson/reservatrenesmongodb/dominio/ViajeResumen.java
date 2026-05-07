@@ -5,6 +5,7 @@
 package itson.reservatrenesmongodb.dominio;
 
 import java.time.Instant;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 
 /**
  * Clase que representa un resumen del viaje asociado a un boleto.
@@ -19,6 +20,7 @@ public class ViajeResumen {
     /**
      * Fecha y hora de salida del viaje.
      */
+    @BsonProperty("fecha_hora_salida")
     private Instant fechaHoraSalida;
 
     /**

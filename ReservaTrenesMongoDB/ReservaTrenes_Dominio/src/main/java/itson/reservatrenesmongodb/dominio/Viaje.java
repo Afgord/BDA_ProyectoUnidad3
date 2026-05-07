@@ -6,6 +6,10 @@ package itson.reservatrenesmongodb.dominio;
 
 import itson.reservatrenesmongodb.dominio.enums.EstatusViaje;
 import java.time.Instant;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  * Clase que representa un viaje programado dentro del sistema.
@@ -21,6 +25,8 @@ public class Viaje {
     /**
      * Identificador único del viaje.
      */
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
 
     /**
@@ -36,11 +42,13 @@ public class Viaje {
     /**
      * Fecha y hora de salida del viaje.
      */
+    @BsonProperty("fecha_hora_salida")
     private Instant fechaHoraSalida;
 
     /**
      * Fecha y hora estimada de llegada.
      */
+    @BsonProperty("fecha_hora_llegada")
     private Instant fechaHoraLlegadaEstimada;
 
     /**
@@ -51,6 +59,7 @@ public class Viaje {
     /**
      * Capacidad máxima del viaje.
      */
+    @BsonProperty("capacidad_maxima")
     private Capacidad capacidadMaxima;
 
     /**

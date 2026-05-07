@@ -8,6 +8,10 @@ import itson.reservatrenesmongodb.dominio.enums.Sexo;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  * Clase que representa a un pasajero registrado en el sistema.
@@ -22,11 +26,14 @@ public class Pasajero {
     /**
      * Identificador único del pasajero.
      */
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
 
     /**
      * Nombre completo del pasajero.
      */
+    @BsonProperty("Nombre_Completo")
     private String nombreCompleto;
 
     /**
@@ -37,6 +44,7 @@ public class Pasajero {
     /**
      * Fecha de nacimiento del pasajero.
      */
+    @BsonProperty("Fecha_Nacimiento")
     private Instant fechaNacimiento;
 
     /**
@@ -52,6 +60,7 @@ public class Pasajero {
     /**
      * Historial resumido de viajes del pasajero.
      */
+    @BsonProperty("Historial_de_Viajes")
     private List<HistorialViaje> historialViajes;
 
     /**

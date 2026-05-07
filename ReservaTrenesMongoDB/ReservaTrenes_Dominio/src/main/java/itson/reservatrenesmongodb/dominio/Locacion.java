@@ -4,6 +4,10 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
+
 /**
  * Clase que representa una locación válida dentro del sistema.
  *
@@ -17,6 +21,8 @@ public class Locacion {
     /**
      * Identificador único de la locación.
      */
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
 
     /**

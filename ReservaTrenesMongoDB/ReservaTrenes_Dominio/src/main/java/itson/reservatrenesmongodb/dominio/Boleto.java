@@ -6,6 +6,11 @@ package itson.reservatrenesmongodb.dominio;
 
 import itson.reservatrenesmongodb.dominio.enums.EstatusBoleto;
 import java.time.Instant;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
+import org.bson.types.ObjectId;
 
 /**
  * Clase que representa un boleto generado para un pasajero en un viaje
@@ -22,6 +27,8 @@ public class Boleto {
     /**
      * Identificador único interno del boleto.
      */
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
 
     /**
@@ -30,47 +37,56 @@ public class Boleto {
      * Este valor se utiliza para que el operador o pasajero puedan identificar
      * el boleto de forma sencilla, por ejemplo: BOL-12345.
      */
+    @BsonProperty("folio")
     private String folio;
 
     /**
      * Identificador del pasajero asociado.
      */
+    @BsonProperty("pasajeroId")
     private String pasajeroId;
 
     /**
      * Identificador del viaje asociado.
      */
+    @BsonProperty("viajeId")
     private String viajeId;
 
     /**
      * Resumen del pasajero al momento de generar el boleto.
      */
+    @BsonProperty("pasajeroResumen")
     private PasajeroResumen pasajeroResumen;
 
     /**
      * Resumen del viaje al momento de generar el boleto.
      */
+    @BsonProperty("viajeResumen")
     private ViajeResumen viajeResumen;
 
     /**
      * Tipo de boleto adquirido.
      */
+    @BsonProperty("tipoBoleto")
     private TipoBoleto tipoBoleto;
 
     /**
      * Estatus actual del boleto.
      */
+    @BsonProperty("estatus")
     private EstatusBoleto estatus;
 
     /**
      * Fecha y hora de reservación del boleto.
      */
+    @BsonProperty("fechaReservacion")
     private Instant fechaReservacion;
 
     /**
      * Fecha y hora de cancelación del boleto. Puede ser null si el boleto no ha
      * sido cancelado.
      */
+    @BsonProperty("fechaCancelacion")
     private Instant fechaCancelacion;
 
     /**

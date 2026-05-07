@@ -4,6 +4,8 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 /**
  * Clase que representa un resumen del tren asignado a un viaje.
  *
@@ -17,6 +19,7 @@ public class TrenResumen {
     /**
      * Identificador del tren referenciado.
      */
+    @BsonProperty("tren_id")
     private String trenId;
 
     /**

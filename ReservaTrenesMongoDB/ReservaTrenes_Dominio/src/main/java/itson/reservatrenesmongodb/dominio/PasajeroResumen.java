@@ -4,6 +4,8 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 /**
  * Clase que representa un resumen del pasajero asociado a un boleto.
  *
@@ -17,6 +19,7 @@ public class PasajeroResumen {
     /**
      * Nombre completo del pasajero.
      */
+    @BsonProperty("nombre_completo")
     private String nombreCompleto;
 
     /**

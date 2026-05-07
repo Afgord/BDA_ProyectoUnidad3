@@ -4,6 +4,8 @@
  */
 package itson.reservatrenesmongodb.dominio;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 /**
  * Clase que representa un elemento del historial de viajes de un pasajero.
  *
@@ -17,11 +19,13 @@ public class HistorialViaje {
     /**
      * Identificador del boleto asociado al viaje.
      */
+    @BsonProperty("boleto_id")
     private String boletoId;
 
     /**
      * Identificador del viaje asociado.
      */
+    @BsonProperty("viaje_id")
     private String viajeId;
 
     /**

@@ -7,6 +7,9 @@ package itson.reservatrenesmongodb.dominio;
 import itson.reservatrenesmongodb.dominio.enums.EstatusTren;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  * Clase que representa un tren registrado en el sistema.
@@ -21,6 +24,8 @@ public class Tren {
     /**
      * Identificador único del tren.
      */
+    @BsonId
+    @BsonRepresentation(BsonType.OBJECT_ID)
     private String id;
 
     /**
