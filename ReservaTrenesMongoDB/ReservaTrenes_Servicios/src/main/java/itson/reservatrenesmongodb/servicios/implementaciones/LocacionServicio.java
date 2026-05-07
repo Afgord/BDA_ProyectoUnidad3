@@ -5,9 +5,14 @@
 package itson.reservatrenesmongodb.servicios.implementaciones;
 
 import itson.reservatrenesmongodb.dominio.Locacion;
+import itson.reservatrenesmongodb.dtos.LocacionDTO;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
+import itson.reservatrenesmongodb.exceptions.ServicioException;
 import itson.reservatrenesmongodb.persistencia.daos.LocacionDAO;
 import itson.reservatrenesmongodb.persistencia.interfaces.ILocacionDAO;
+import itson.reservatrenesmongodb.servicios.interfaces.ILocacionServicio;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementación del servicio de locaciones.

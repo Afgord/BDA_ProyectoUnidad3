@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
@@ -31,6 +32,7 @@ public class Tren {
     /**
      * Código identificador del tren.
      */
+    @BsonProperty("codigo")
     private String codigo;
 
     /**

@@ -37,6 +37,15 @@ public interface ITrenDAO {
     Tren buscarPorId(String id) throws PersistenciaException;
 
     /**
+     * Busca un tren por su código.
+     *
+     * @param codigo Código del tren.
+     * @return Tren encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    Tren buscarPorCodigo(String codigo) throws PersistenciaException;
+
+    /**
      * Consulta todos los trenes registrados.
      *
      * @return Lista de trenes.
@@ -49,7 +58,8 @@ public interface ITrenDAO {
      *
      * @param tren Tren con los datos actualizados.
      * @return true si el tren fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     boolean actualizar(Tren tren) throws PersistenciaException;
 

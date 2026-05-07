@@ -4,6 +4,7 @@
  */
 package itson.reservatrenesmongodb.servicios.interfaces;
 
+import itson.reservatrenesmongodb.dtos.LocacionDTO;
 import itson.reservatrenesmongodb.exceptions.ServicioException;
 import java.util.List;
 

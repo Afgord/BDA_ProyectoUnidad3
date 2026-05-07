@@ -110,6 +110,25 @@ public class TrenDAO implements ITrenDAO {
     }
 
     /**
+     * Busca un tren por su código.
+     *
+     * @param codigo Código del tren.
+     * @return Tren encontrado o null si no existe.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    @Override
+    public Tren buscarPorCodigo(String codigo) throws PersistenciaException {
+        try {
+            return collection.find(
+                    Filters.eq("codigo", codigo)
+            ).first();
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar el tren por código.", e);
+        }
+    }
+
+    /**
      * Consulta todos los trenes registrados.
      *
      * @return Lista de trenes.
@@ -136,7 +155,8 @@ public class TrenDAO implements ITrenDAO {
      *
      * @param tren Tren con datos actualizados.
      * @return true si el tren fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public boolean actualizar(Tren tren) throws PersistenciaException {
