@@ -121,6 +121,31 @@ public class TrenServicio implements ITrenServicio {
         }
     }
 
+    /**
+     * Consulta los servicios disponibles previamente registrados en trenes.
+     *
+     * @return Lista de servicios disponibles sin duplicados.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> consultarServiciosDisponibles()
+            throws ServicioException {
+        try {
+            List<String> servicios
+                    = trenDAO.consultarServiciosDisponibles();
+
+            servicios.sort(String.CASE_INSENSITIVE_ORDER);
+
+            return servicios;
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible consultar los servicios disponibles.",
+                    e
+            );
+        }
+    }
+
     @Override
     public List<TrenDTO> consultarTodos() throws ServicioException {
         try {

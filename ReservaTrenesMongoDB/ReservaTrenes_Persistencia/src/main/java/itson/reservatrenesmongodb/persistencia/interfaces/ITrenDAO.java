@@ -46,6 +46,15 @@ public interface ITrenDAO {
     Tren buscarPorCodigo(String codigo) throws PersistenciaException;
 
     /**
+     * Consulta los servicios distintos registrados en los trenes.
+     *
+     * @return Lista de servicios disponibles sin duplicados.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    List<String> consultarServiciosDisponibles()
+            throws PersistenciaException;
+
+    /**
      * Consulta todos los trenes registrados.
      *
      * @return Lista de trenes.

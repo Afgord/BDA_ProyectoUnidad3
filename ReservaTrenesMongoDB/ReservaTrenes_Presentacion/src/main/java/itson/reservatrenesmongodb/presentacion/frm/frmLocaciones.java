@@ -174,7 +174,7 @@ public class frmLocaciones extends javax.swing.JPanel {
                 .addGroup(pnlAgregarLocacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarLocacion)
                     .addComponent(btnLimpiarLocacion))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         lblListaLocaciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -254,10 +254,9 @@ public class frmLocaciones extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlTablaListaLocaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlListaLocaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlEditarEliminarLocacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addComponent(pnlListaLocaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(pnlEditarEliminarLocacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +269,7 @@ public class frmLocaciones extends javax.swing.JPanel {
                         .addComponent(pnlListaLocaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlTablaListaLocaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlEditarEliminarLocacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -297,36 +296,6 @@ public class frmLocaciones extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPaisLocacionActionPerformed
 
     private void btnAgregarLocacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarLocacionActionPerformed
-//        try {
-//            LocacionDTO locacionDTO = new LocacionDTO(
-//                    txtClaveLocacion.getText(),
-//                    txtNombreLocacion.getText(),
-//                    txtEstadoLocacion.getText(),
-//                    txtPaisLocacion.getText(),
-//                    chkLocacionActiva.isSelected()
-//            );
-//
-//            ILocacionServicio locacionServicio = new LocacionServicio();
-//            locacionServicio.registrar(locacionDTO);
-//
-//            JOptionPane.showMessageDialog(
-//                    this,
-//                    "Locación registrada correctamente.",
-//                    "Registro exitoso",
-//                    JOptionPane.INFORMATION_MESSAGE
-//            );
-//
-//            limpiarFormulario();
-//            cargarLocaciones();
-//
-//        } catch (ServicioException e) {
-//            JOptionPane.showMessageDialog(
-//                    this,
-//                    e.getMessage(),
-//                    "No fue posible registrar la locación",
-//                    JOptionPane.WARNING_MESSAGE
-//            );
-//        }
 
         if (idLocacionEnEdicion == null) {
             registrarLocacion();

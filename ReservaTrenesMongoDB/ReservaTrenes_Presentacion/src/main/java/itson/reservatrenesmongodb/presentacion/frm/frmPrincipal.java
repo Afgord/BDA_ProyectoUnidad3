@@ -234,7 +234,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPasajerosActionPerformed
 
     private void btnTrenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrenesActionPerformed
-        // TODO add your handling code here:
+        mostrarPanel(new frmTrenes());
     }//GEN-LAST:event_btnTrenesActionPerformed
 
     private void btnLocacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocacionesActionPerformed

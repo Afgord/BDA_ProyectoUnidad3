@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Interfaz de servicio para la administración de trenes.
  *
- * Define las operaciones disponibles para registrar, consultar, actualizar
- * y eliminar trenes desde la capa de presentación.
+ * Define las operaciones disponibles para registrar, consultar, actualizar y
+ * eliminar trenes desde la capa de presentación.
  *
  * @author Afgord
  */
@@ -23,6 +23,15 @@ public interface ITrenServicio {
     TrenDTO buscarPorId(String id) throws ServicioException;
 
     TrenDTO buscarPorCodigo(String codigo) throws ServicioException;
+
+    /**
+     * Consulta los servicios disponibles previamente registrados en trenes.
+     *
+     * @return Lista de servicios disponibles sin duplicados.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    List<String> consultarServiciosDisponibles()
+            throws ServicioException;
 
     List<TrenDTO> consultarTodos() throws ServicioException;
 

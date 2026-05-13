@@ -39,6 +39,11 @@ public class TrenDAO implements ITrenDAO {
     private final MongoCollection<Tren> collection;
 
     /**
+     * Campo BSON que almacena la lista de servicios del tren.
+     */
+    private static final String CAMPO_SERVICIOS = "servicios";
+
+    /**
      * Constructor que obtiene la colección trenes desde la conexión Singleton.
      */
     public TrenDAO() {
@@ -125,6 +130,33 @@ public class TrenDAO implements ITrenDAO {
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el tren por código.", e);
+        }
+    }
+
+    /**
+     * Consulta los servicios distintos registrados en los trenes.
+     *
+     * @return Lista de servicios disponibles sin duplicados.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> consultarServiciosDisponibles()
+            throws PersistenciaException {
+        try {
+            List<String> servicios = new ArrayList<>();
+
+            collection.distinct(
+                    CAMPO_SERVICIOS,
+                    String.class
+            ).into(servicios);
+
+            return servicios;
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al consultar los servicios disponibles de los trenes.",
+                    e
+            );
         }
     }
 
