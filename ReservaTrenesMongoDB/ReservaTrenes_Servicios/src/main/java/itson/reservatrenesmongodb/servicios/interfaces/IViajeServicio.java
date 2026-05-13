@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Interfaz de servicio para la administración de viajes.
  *
- * Define las operaciones disponibles para programar, consultar, actualizar
- * y eliminar viajes desde la capa de presentación.
+ * Define las operaciones disponibles para programar, consultar, actualizar y
+ * eliminar viajes desde la capa de presentación.
  *
  * @author Afgord
  */
@@ -21,6 +21,16 @@ public interface IViajeServicio {
     ViajeDTO registrar(ViajeDTO viajeDTO) throws ServicioException;
 
     ViajeDTO buscarPorId(String id) throws ServicioException;
+
+    /**
+     * Consulta los próximos viajes programados.
+     *
+     * @param limite Cantidad máxima de viajes a consultar.
+     * @return Lista de próximos viajes programados.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    List<ViajeDTO> consultarProximosViajesProgramados(int limite)
+            throws ServicioException;
 
     List<ViajeDTO> consultarTodos() throws ServicioException;
 

@@ -121,6 +121,42 @@ public class ViajeServicio implements IViajeServicio {
         }
     }
 
+    /**
+     * Consulta los próximos viajes programados.
+     *
+     * @param limite Cantidad máxima de viajes a consultar.
+     * @return Lista de próximos viajes programados.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<ViajeDTO> consultarProximosViajesProgramados(int limite)
+            throws ServicioException {
+        try {
+            if (limite <= 0) {
+                throw new ServicioException(
+                        "El límite de viajes debe ser mayor a cero.");
+            }
+
+            List<Viaje> viajes
+                    = viajeDAO.buscarProximosViajesProgramados(limite);
+
+            List<ViajeDTO> viajesDTO = new ArrayList<>();
+
+            for (Viaje viaje : viajes) {
+                viajesDTO.add(convertirADTO(viaje));
+            }            
+
+            return viajesDTO;
+
+        } catch (ServicioException e) {
+            throw e;
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible consultar los próximos viajes programados.", e);
+        }
+    }
+
     @Override
     public List<ViajeDTO> consultarTodos() throws ServicioException {
         try {

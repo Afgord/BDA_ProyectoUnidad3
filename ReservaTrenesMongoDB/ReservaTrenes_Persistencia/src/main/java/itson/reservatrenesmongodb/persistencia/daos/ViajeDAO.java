@@ -10,6 +10,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.Sorts;
 import itson.reservatrenesmongodb.conexion.MongoDBConnection;
 import itson.reservatrenesmongodb.dominio.Viaje;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
@@ -33,6 +34,7 @@ public class ViajeDAO implements IViajeDAO {
      * Nombre de la colección en MongoDB.
      */
     private static final String COLECCION = "viajes";
+    private static final String CAMPO_ESTATUS = "estatus";
 
     /**
      * Campo BSON que representa el identificador del tren dentro del documento
@@ -128,6 +130,37 @@ public class ViajeDAO implements IViajeDAO {
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el viaje por id.", e);
+        }
+    }
+
+    /**
+     * Consulta los próximos viajes programados, ordenados por fecha de salida.
+     *
+     * @param limite Cantidad máxima de viajes a consultar.
+     * @return Lista de viajes programados próximos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<Viaje> buscarProximosViajesProgramados(int limite)
+            throws PersistenciaException {
+        try {
+            List<Viaje> viajes = new ArrayList<>();
+
+            collection.find(
+                    Filters.and(
+                            Filters.eq(CAMPO_ESTATUS, "PROGRAMADO")
+                            ,Filters.gte(CAMPO_FECHA_HORA_SALIDA, Instant.now())
+                    )
+            )
+                    .sort(Sorts.ascending(CAMPO_FECHA_HORA_SALIDA))
+                    .limit(limite)
+                    .into(viajes);
+
+            return viajes;
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al consultar los próximos viajes programados.", e);
         }
     }
 

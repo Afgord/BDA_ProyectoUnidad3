@@ -38,6 +38,16 @@ public interface IViajeDAO {
     Viaje buscarPorId(String id) throws PersistenciaException;
 
     /**
+     * Consulta los próximos viajes programados, ordenados por fecha de salida.
+     *
+     * @param limite Cantidad máxima de viajes a consultar.
+     * @return Lista de viajes programados próximos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    List<Viaje> buscarProximosViajesProgramados(int limite)
+            throws PersistenciaException;
+
+    /**
      * Consulta todos los viajes registrados.
      *
      * @return Lista de viajes.
