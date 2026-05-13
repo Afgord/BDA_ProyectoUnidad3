@@ -239,6 +239,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void btnLocacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocacionesActionPerformed
         // TODO add your handling code here:
+        mostrarPanel(new frmLocaciones());
     }//GEN-LAST:event_btnLocacionesActionPerformed
 
     private void btnViajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViajesActionPerformed
