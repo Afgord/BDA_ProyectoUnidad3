@@ -432,8 +432,8 @@ public class frmTrenes extends javax.swing.JPanel {
         try {
             ITrenServicio trenServicio = new TrenServicio();
 
-            String codigo = tblListaTrenes.getValueAt(fila, 0).toString();
-            trenServicio.eliminar(codigo);
+            String id = tblListaTrenes.getValueAt(fila, 0).toString();
+            trenServicio.eliminar(id);
 
             JOptionPane.showMessageDialog(this,
                     "Tren eliminado correctamente.",
@@ -500,7 +500,7 @@ public class frmTrenes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAgregarTrenActionPerformed
 
     private void btnLimpiarTrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarTrenActionPerformed
-        // TODO add your handling code here:
+        limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarTrenActionPerformed
 
     private void btnAgregarServicioTrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarServicioTrenActionPerformed
@@ -623,6 +623,16 @@ public class frmTrenes extends javax.swing.JPanel {
         tblListaTrenes.getColumnModel().getColumn(0).setMinWidth(0);
         tblListaTrenes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblListaTrenes.getColumnModel().getColumn(0).setWidth(0);
+
+        tblListaTrenes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+        tblListaTrenes.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tblListaTrenes.getColumnModel().getColumn(2).setPreferredWidth(160);
+        tblListaTrenes.getColumnModel().getColumn(3).setPreferredWidth(110);
+        tblListaTrenes.getColumnModel().getColumn(4).setPreferredWidth(110);
+        tblListaTrenes.getColumnModel().getColumn(5).setPreferredWidth(120);
+        tblListaTrenes.getColumnModel().getColumn(6).setPreferredWidth(120);
+        tblListaTrenes.getColumnModel().getColumn(7).setPreferredWidth(250);
     }
 
     /**

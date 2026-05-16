@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="pnlListaViajes" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="pnlTituloViajes" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pnlProgramarViaje" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="scrlListaViajes" min="-2" pref="605" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="pnlEditarEliminarViaje" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="pnlTituloViajes" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="pnlProgramarViaje" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="pnlListaViajes" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlEditarEliminarViaje" max="32767" attributes="0"/>
+                  <Component id="scrlListaViajes" pref="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="pnlTituloViajes">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblSubtituloViajes" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTituloViajes" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblTituloViajes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblSubtituloViajes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblTituloViajes">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="24" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Administrar viajes"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSubtituloViajes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Programe y gestione los viajes de la empresa"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlProgramarViaje">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblProgramarNuevoViaje" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="btnProgramarViaje" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="txtCapacidadMaxGeneralViaje" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblTren" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbTrenViaje" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
+                                          <Component id="lblFechaSalida" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="lblCapacidadMaxGeneral" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="dchFechaSalidaViaje" min="-2" pref="166" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtCapacidadMaxPrimeraViaje" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lblOrigen" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbOrigenViaje" alignment="0" pref="154" max="32767" attributes="0"/>
+                                      <Component id="lblHoraSalida" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCapacidadMaxPrimera" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="spnHoraSalidaViaje" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtDisponibilidadGeneralViaje" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lblDestino" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbDestinoViaje" alignment="0" pref="155" max="32767" attributes="0"/>
+                                      <Component id="lblFechaEstimadaLlegada" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDisponibilidadGeneral" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dchFechaLlegadaViaje" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="lblDisponibilidadPrimera" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblHoraEstimadaLlegada" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblEstatus" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbEstatusViaje" pref="155" max="32767" attributes="0"/>
+                                      <Component id="txtDisponibilidadPrimeraViaje" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="spnHoraLlegadaViaje" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="btnLimpiarViaje" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblProgramarNuevoViaje" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblTren" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDestino" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblEstatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cmbTrenViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbOrigenViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbDestinoViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbEstatusViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblFechaSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblHoraSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblFechaEstimadaLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblHoraEstimadaLlegada" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="dchFechaSalidaViaje" min="-2" max="-2" attributes="0"/>
+                                  <Component id="spnHoraSalidaViaje" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="spnHoraLlegadaViaje" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="dchFechaLlegadaViaje" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblCapacidadMaxGeneral" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCapacidadMaxPrimera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDisponibilidadGeneral" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDisponibilidadPrimera" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtCapacidadMaxGeneralViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtCapacidadMaxPrimeraViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDisponibilidadGeneralViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDisponibilidadPrimeraViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnProgramarViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimpiarViaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblProgramarNuevoViaje">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Programar nuevo viaje "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTren">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tren *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbTrenViaje">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTrenViajeActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblOrigen">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Origen *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbOrigenViaje">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbOrigenViajeActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblDestino">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Destino *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbDestinoViaje">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbDestinoViajeActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblEstatus">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Estatus *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmbEstatusViaje">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbEstatusViajeActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblFechaSalida">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha de salida *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblHoraSalida">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Hora de salida *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblFechaEstimadaLlegada">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha estimada llegada *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblHoraEstimadaLlegada">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Hora estimada llegada *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblCapacidadMaxGeneral">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cap. m&#xe1;x. General *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtCapacidadMaxGeneralViaje">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCapacidadMaxGeneralViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblCapacidadMaxPrimera">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cap. m&#xe1;x. Primera *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtCapacidadMaxPrimeraViaje">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCapacidadMaxPrimeraViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblDisponibilidadGeneral">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Disp. General *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtDisponibilidadGeneralViaje">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDisponibilidadGeneralViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblDisponibilidadPrimera">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Disp. Primera *"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtDisponibilidadPrimeraViaje">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDisponibilidadPrimeraViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnProgramarViaje">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="+ Programar viaje"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProgramarViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnLimpiarViaje">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Limpiar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="dchFechaSalidaViaje">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="dchFechaLlegadaViaje">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spnHoraSalidaViaje">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spnHoraLlegadaViaje">
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlListaViajes">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblViajesProgramados" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblListaViajes" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblListaViajes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="lblViajesProgramados" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblListaViajes">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Lista de viajes"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblViajesProgramados">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="4 viajes programados"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="pnlEditarEliminarViaje">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="btnEditarViaje" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEliminarViaje" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnEditarViaje" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btnEliminarViaje" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="177" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="btnEditarViaje">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Editar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarViajeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnEliminarViaje">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarViajeActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="scrlListaViajes">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tblListaViajes">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="0" rowCount="4"/>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

@@ -11,6 +11,11 @@ import itson.reservatrenesmongodb.servicios.implementaciones.DashboardServicio;
 import itson.reservatrenesmongodb.servicios.implementaciones.ViajeServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IDashboardServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IViajeServicio;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -465,42 +470,59 @@ public class frmDashboard extends javax.swing.JPanel {
     }
 
     /**
-     * Convierte una fecha ISO-8601 a un formato sencillo para la tabla.
+     * Convierte una fecha ISO-8601 almacenada en UTC a fecha y hora local para
+     * mostrarla de forma amigable en el dashboard.
      *
-     * Ejemplo: 2026-05-15T08:00:00Z -> 2026-05-15 08:00
+     * Ejemplo visual: 18-05-2026 08:00
      *
-     * @param fechaIso Fecha en formato ISO.
-     * @return Fecha formateada.
+     * @param fechaIso Fecha en formato ISO-8601.
+     * @return Fecha y hora local formateada.
      */
     private String formatearFechaHora(String fechaIso) {
         if (fechaIso == null || fechaIso.isBlank()) {
             return "";
         }
 
-        return fechaIso.replace("T", " ")
-                .replace(":00Z", "");
+        try {
+            Instant instant = Instant.parse(fechaIso);
+            ZonedDateTime fechaHoraLocal = instant.atZone(ZoneId.systemDefault());
+
+            DateTimeFormatter formato
+                    = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+            return fechaHoraLocal.format(formato);
+
+        } catch (DateTimeParseException e) {
+            return fechaIso;
+        }
     }
 
     /**
-     * Extrae la hora de una fecha ISO-8601.
+     * Convierte una fecha ISO-8601 almacenada en UTC a hora local para
+     * mostrarla en el dashboard.
      *
-     * Ejemplo: 2026-05-15T11:30:00Z -> 11:30
+     * Ejemplo visual: 12:30
      *
-     * @param fechaIso Fecha en formato ISO.
-     * @return Hora formateada.
+     * @param fechaIso Fecha en formato ISO-8601.
+     * @return Hora local formateada.
      */
     private String extraerHora(String fechaIso) {
         if (fechaIso == null || fechaIso.isBlank()) {
             return "";
         }
 
-        int inicioHora = fechaIso.indexOf("T");
+        try {
+            Instant instant = Instant.parse(fechaIso);
+            ZonedDateTime fechaHoraLocal = instant.atZone(ZoneId.systemDefault());
 
-        if (inicioHora == -1 || fechaIso.length() < inicioHora + 6) {
+            DateTimeFormatter formato
+                    = DateTimeFormatter.ofPattern("HH:mm");
+
+            return fechaHoraLocal.format(formato);
+
+        } catch (DateTimeParseException e) {
             return fechaIso;
         }
-
-        return fechaIso.substring(inicioHora + 1, inicioHora + 6);
     }
 
 }

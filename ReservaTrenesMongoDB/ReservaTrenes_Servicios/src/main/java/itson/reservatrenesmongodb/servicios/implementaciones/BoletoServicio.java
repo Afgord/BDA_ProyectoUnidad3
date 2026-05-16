@@ -8,6 +8,7 @@ import itson.reservatrenesmongodb.dominio.Boleto;
 import itson.reservatrenesmongodb.dominio.Contacto;
 import itson.reservatrenesmongodb.dominio.Direccion;
 import itson.reservatrenesmongodb.dominio.Disponibilidad;
+import itson.reservatrenesmongodb.dominio.HistorialViaje;
 import itson.reservatrenesmongodb.dominio.Pasajero;
 import itson.reservatrenesmongodb.dominio.PasajeroResumen;
 import itson.reservatrenesmongodb.dominio.TipoBoleto;
@@ -119,6 +120,12 @@ public class BoletoServicio implements IBoletoServicio {
             boleto.setFechaCancelacion(null);
 
             Boleto boletoInsertado = boletoDAO.insertar(boleto);
+
+            agregarViajeAlHistorialPasajero(
+                    pasajero,
+                    boletoInsertado,
+                    viaje
+            );
 
             descontarDisponibilidad(viaje, compraDTO.getTipoBoleto());
             viajeDAO.actualizar(viaje);
@@ -671,5 +678,41 @@ public class BoletoServicio implements IBoletoServicio {
 
     private boolean estaVacio(String texto) {
         return texto == null || texto.trim().isEmpty();
+    }
+
+    /**
+     * Agrega al pasajero un registro resumido del viaje asociado al boleto
+     * generado.
+     *
+     * @param pasajero Pasajero al que se agregará el historial.
+     * @param boleto Boleto recién generado.
+     * @param viaje Viaje asociado al boleto.
+     * @throws PersistenciaException Si ocurre un error al actualizar al
+     * pasajero.
+     */
+    private void agregarViajeAlHistorialPasajero(Pasajero pasajero,
+            Boleto boleto,
+            Viaje viaje) throws PersistenciaException {
+
+        if (pasajero.getHistorialViajes() == null) {
+            pasajero.setHistorialViajes(new ArrayList<>());
+        }
+
+        String destino = null;
+
+        if (viaje.getRuta() != null
+                && viaje.getRuta().getDestino() != null) {
+            destino = viaje.getRuta().getDestino().getNombre();
+        }
+
+        HistorialViaje historialViaje = new HistorialViaje(
+                boleto.getId(),
+                viaje.getId(),
+                destino
+        );
+
+        pasajero.getHistorialViajes().add(historialViaje);
+
+        pasajeroDAO.actualizar(pasajero);
     }
 }

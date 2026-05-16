@@ -188,6 +188,12 @@ public class PasajeroServicio implements IPasajeroServicio {
 
             Pasajero pasajero = convertirAEntidad(pasajeroDTO);
 
+            /*
+            * Se conserva el historial de viajes ya registrado, ya que actualizar
+            * los datos personales del pasajero no debe eliminar su historial.
+             */
+            pasajero.setHistorialViajes(pasajeroExistente.getHistorialViajes());
+
             return pasajeroDAO.actualizar(pasajero);
 
         } catch (ServicioException e) {
@@ -359,9 +365,9 @@ public class PasajeroServicio implements IPasajeroServicio {
             estado = pasajero.getDireccion().getEstado();
         }
 
-        int boletosComprados = 0;
+        int viajesRegistrados = 0;
         if (pasajero.getHistorialViajes() != null) {
-            boletosComprados = pasajero.getHistorialViajes().size();
+            viajesRegistrados = pasajero.getHistorialViajes().size();
         }
 
         return new PasajeroDTO(
@@ -375,7 +381,7 @@ public class PasajeroServicio implements IPasajeroServicio {
                 colonia,
                 ciudad,
                 estado,
-                boletosComprados
+                viajesRegistrados
         );
     }
 

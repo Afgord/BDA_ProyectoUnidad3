@@ -25,7 +25,7 @@ public class PasajeroDTO {
     private String colonia;
     private String ciudad;
     private String estado;
-    private int boletosComprados;
+    private int viajesRegistrados;
 
     public PasajeroDTO() {
     }
@@ -33,7 +33,7 @@ public class PasajeroDTO {
     public PasajeroDTO(String id, String nombreCompleto, String sexo,
             String fechaNacimiento, String telefono, String correo,
             String calle, String colonia, String ciudad, String estado,
-            int boletosComprados) {
+            int viajesRegistrados) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.sexo = sexo;
@@ -44,7 +44,7 @@ public class PasajeroDTO {
         this.colonia = colonia;
         this.ciudad = ciudad;
         this.estado = estado;
-        this.boletosComprados = boletosComprados;
+        this.viajesRegistrados = viajesRegistrados;
     }
 
     public PasajeroDTO(String nombreCompleto, String sexo,
@@ -141,11 +141,11 @@ public class PasajeroDTO {
         this.estado = estado;
     }
 
-    public int getBoletosComprados() {
-        return boletosComprados;
+    public int getViajesRegistrados() {
+        return viajesRegistrados;
     }
 
-    public void setBoletosComprados(int boletosComprados) {
-        this.boletosComprados = boletosComprados;
+    public void setViajesRegistrados(int viajesRegistrados) {
+        this.viajesRegistrados = viajesRegistrados;
     }
 }

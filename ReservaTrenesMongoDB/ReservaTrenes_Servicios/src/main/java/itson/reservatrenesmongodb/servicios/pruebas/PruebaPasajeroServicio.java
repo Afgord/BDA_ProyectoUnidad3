@@ -127,6 +127,6 @@ public class PruebaPasajeroServicio {
         System.out.println("Colonia: " + pasajero.getColonia());
         System.out.println("Ciudad: " + pasajero.getCiudad());
         System.out.println("Estado: " + pasajero.getEstado());
-        System.out.println("Boletos comprados: " + pasajero.getBoletosComprados());
+        System.out.println("Boletos comprados: " + pasajero.getViajesRegistrados());
     }
 }

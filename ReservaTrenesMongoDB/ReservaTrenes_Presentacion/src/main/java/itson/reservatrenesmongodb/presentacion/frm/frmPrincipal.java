@@ -6,6 +6,7 @@ package itson.reservatrenesmongodb.presentacion.frm;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 public class frmPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frmPrincipal.class.getName());
+    private JScrollPane scrlContenido;
 
     /**
      * Creates new form frmPrincipal
@@ -23,8 +25,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         setTitle("Sistema de Reservaciones de Tren");
         setSize(1200, 700);
         setLocationRelativeTo(null);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
         pnlContenido.setLayout(new BorderLayout());
+
+        scrlContenido = new JScrollPane();
+        scrlContenido.setBorder(null);
+        scrlContenido.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        );
+        scrlContenido.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+
+        // Hace más cómodo el desplazamiento con rueda del mouse.
+        scrlContenido.getVerticalScrollBar().setUnitIncrement(16);
+
+        pnlContenido.add(scrlContenido, BorderLayout.CENTER);
+
         mostrarPanel(new frmDashboard());
     }
 
@@ -230,7 +248,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarBoletoActionPerformed
 
     private void btnPasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasajerosActionPerformed
-        // TODO add your handling code here:
+        mostrarPanel(new frmPasajeros());
     }//GEN-LAST:event_btnPasajerosActionPerformed
 
     private void btnTrenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrenesActionPerformed
@@ -243,7 +261,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLocacionesActionPerformed
 
     private void btnViajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViajesActionPerformed
-        // TODO add your handling code here:
+        mostrarPanel(new frmViajes());
     }//GEN-LAST:event_btnViajesActionPerformed
 
     /**
@@ -296,15 +314,19 @@ public class frmPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Muestra un panel dentro del área principal de contenido.
+     * Muestra un panel dentro del área principal de contenido con
+     * desplazamiento automático cuando el formulario excede el espacio visible.
      *
      * @param panel Panel que se desea visualizar.
      */
     private void mostrarPanel(JPanel panel) {
-        pnlContenido.removeAll();
-        pnlContenido.add(panel, BorderLayout.CENTER);
-        pnlContenido.revalidate();
-        pnlContenido.repaint();
+        scrlContenido.setViewportView(panel);
+        scrlContenido.revalidate();
+        scrlContenido.repaint();
+
+        // Cada vez que se abre una vista, se posiciona al inicio.
+        scrlContenido.getVerticalScrollBar().setValue(0);
+        scrlContenido.getHorizontalScrollBar().setValue(0);
     }
 
 }

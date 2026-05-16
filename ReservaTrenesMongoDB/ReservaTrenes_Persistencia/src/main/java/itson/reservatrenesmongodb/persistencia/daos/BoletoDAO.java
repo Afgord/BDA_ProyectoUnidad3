@@ -36,7 +36,8 @@ public class BoletoDAO implements IBoletoDAO {
     /**
      * Campo BSON que representa el folio visible del boleto.
      *
-     * Si en Boleto.java usaste @BsonProperty("folio"), este valor está correcto.
+     * Si en Boleto.java usaste @BsonProperty("folio"), este valor está
+     * correcto.
      */
     private static final String CAMPO_FOLIO = "folio";
 
@@ -74,20 +75,15 @@ public class BoletoDAO implements IBoletoDAO {
      * Crea los índices necesarios para la colección de boletos.
      *
      * El índice único sobre folio evita registrar dos boletos con el mismo
-     * folio. El índice compuesto evita registrar más de un boleto para el mismo
-     * pasajero en el mismo viaje.
+     * folio visible.
+     *
+     * La regla que impide que un pasajero tenga más de un boleto confirmado
+     * para el mismo viaje se valida en la capa de servicios, ya que un boleto
+     * cancelado puede permitir una nueva compra.
      */
     private void crearIndices() {
         collection.createIndex(
                 Indexes.ascending(CAMPO_FOLIO),
-                new IndexOptions().unique(true)
-        );
-
-        collection.createIndex(
-                Indexes.compoundIndex(
-                        Indexes.ascending(CAMPO_PASAJERO_ID),
-                        Indexes.ascending(CAMPO_VIAJE_ID)
-                ),
                 new IndexOptions().unique(true)
         );
     }
@@ -108,8 +104,7 @@ public class BoletoDAO implements IBoletoDAO {
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe un boleto registrado con el mismo folio "
-                        + "o para el mismo pasajero y viaje.", e);
+                        "Ya existe un boleto registrado con el mismo folio.", e);
             }
 
             throw new PersistenciaException("Error al insertar el boleto.", e);
@@ -240,7 +235,8 @@ public class BoletoDAO implements IBoletoDAO {
      *
      * @param boleto Boleto con datos actualizados.
      * @return true si el boleto fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public boolean actualizar(Boleto boleto) throws PersistenciaException {
@@ -259,8 +255,7 @@ public class BoletoDAO implements IBoletoDAO {
         } catch (MongoWriteException e) {
             if (e.getError() != null && e.getError().getCode() == 11000) {
                 throw new PersistenciaException(
-                        "Ya existe otro boleto registrado con el mismo folio "
-                        + "o para el mismo pasajero y viaje.", e);
+                        "Ya existe otro boleto registrado con el mismo folio.", e);
             }
 
             throw new PersistenciaException("Error al actualizar el boleto.", e);
