@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Interfaz de servicio para la administración de pasajeros.
  *
- * Define las operaciones disponibles para registrar, consultar, actualizar
- * y eliminar pasajeros desde la capa de presentación.
+ * Define las operaciones disponibles para registrar, consultar, actualizar y
+ * eliminar pasajeros desde la capa de presentación.
  *
  * @author Afgord
  */
@@ -23,6 +23,22 @@ public interface IPasajeroServicio {
     PasajeroDTO buscarPorId(String id) throws ServicioException;
 
     PasajeroDTO buscarPorCorreo(String correo) throws ServicioException;
+
+    /**
+     * Consulta las ciudades registradas previamente en pasajeros.
+     *
+     * @return Lista de ciudades disponibles.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    List<String> consultarCiudadesRegistradas() throws ServicioException;
+
+    /**
+     * Consulta los estados registrados previamente en pasajeros.
+     *
+     * @return Lista de estados disponibles.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    List<String> consultarEstadosRegistrados() throws ServicioException;
 
     List<PasajeroDTO> consultarTodos() throws ServicioException;
 

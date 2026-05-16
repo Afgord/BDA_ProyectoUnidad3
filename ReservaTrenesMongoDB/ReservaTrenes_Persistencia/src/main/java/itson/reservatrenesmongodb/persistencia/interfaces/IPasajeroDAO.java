@@ -39,8 +39,8 @@ public interface IPasajeroDAO {
     /**
      * Busca un pasajero por su correo electrónico.
      *
-     * @param correo Correo electrónico del pasajero.
-     * @return Pasajero encontrado o null si no existe.
+     * @param correo Correo electrónico del pasajero. * @return Pasajero
+     * encontrado o null si no existe.
      * @throws PersistenciaException Si ocurre un error durante la búsqueda.
      */
     Pasajero buscarPorCorreo(String correo) throws PersistenciaException;
@@ -58,7 +58,8 @@ public interface IPasajeroDAO {
      *
      * @param pasajero Pasajero con los datos actualizados.
      * @return true si el pasajero fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     boolean actualizar(Pasajero pasajero) throws PersistenciaException;
 
@@ -70,4 +71,21 @@ public interface IPasajeroDAO {
      * @throws PersistenciaException Si ocurre un error durante la eliminación.
      */
     boolean eliminar(String id) throws PersistenciaException;
+
+    /**
+     * Consulta las ciudades registradas en las direcciones de los pasajeros.
+     *
+     * @return Lista de ciudades sin duplicados.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    List<String> buscarCiudadesRegistradas() throws PersistenciaException;
+
+    /**
+     * Consulta los estados registrados en las direcciones de los pasajeros.
+     *
+     * @return Lista de estados sin duplicados.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    List<String> buscarEstadosRegistrados() throws PersistenciaException;
+
 }

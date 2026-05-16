@@ -303,10 +303,10 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtDireccionEstadoPasajero" max="32767" attributes="0"/>
+                          <Component id="cmbDireccionEstadoPasajero" max="32767" attributes="0"/>
                           <Component id="txtNombreCompletoPasajero" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -334,9 +334,16 @@
                           </Group>
                           <Component id="txtDireccionCalleNumeroPasajero" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtDireccionColoniaPasajero" min="-2" pref="142" max="-2" attributes="0"/>
+                              <Component id="btnConfirmarCompraBoleto" min="-2" pref="159" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtDireccionCiudadPasajero" max="32767" attributes="0"/>
+                              <Component id="btnLimpiarPasajero" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="10" max="32767" attributes="0"/>
+                              <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtDireccionColoniaPasajero" min="-2" pref="142" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="cmbDireccionCiudadPasajero" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -349,13 +356,6 @@
                                   <Component id="lblDireccionEstadoPasajero" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnConfirmarCompraBoleto" min="-2" pref="159" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnLimpiarPasajero" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="10" max="32767" attributes="0"/>
-                              <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -405,13 +405,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtDireccionColoniaPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtDireccionCiudadPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbDireccionCiudadPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lblDireccionEstadoPasajero" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtDireccionEstadoPasajero" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="cmbDireccionEstadoPasajero" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnConfirmarCompraBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnLimpiarPasajero" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -511,20 +511,10 @@
                 <Property name="text" type="java.lang.String" value="Ciudad *"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtDireccionCiudadPasajero">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDireccionCiudadPasajeroActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="lblDireccionEstadoPasajero">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Estado *"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtDireccionEstadoPasajero">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDireccionEstadoPasajeroActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnConfirmarCompraBoleto">
               <Properties>
@@ -549,6 +539,28 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cmbDireccionCiudadPasajero">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cmbDireccionEstadoPasajero">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

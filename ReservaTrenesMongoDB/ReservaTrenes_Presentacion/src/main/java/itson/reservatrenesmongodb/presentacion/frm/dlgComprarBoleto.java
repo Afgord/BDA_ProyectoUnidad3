@@ -10,13 +10,16 @@ import itson.reservatrenesmongodb.dtos.ViajeDTO;
 import itson.reservatrenesmongodb.dtos.ViajeDisponibleDTO;
 import itson.reservatrenesmongodb.exceptions.ServicioException;
 import itson.reservatrenesmongodb.servicios.implementaciones.BoletoServicio;
+import itson.reservatrenesmongodb.servicios.implementaciones.PasajeroServicio;
 import itson.reservatrenesmongodb.servicios.implementaciones.ViajeServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IBoletoServicio;
+import itson.reservatrenesmongodb.servicios.interfaces.IPasajeroServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IViajeServicio;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -70,6 +73,8 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         configurarComponentesIniciales();
         cargarTiposBoleto();
         cargarSexosPasajero();
+        cargarCiudadesRegistradas();
+        cargarEstadosRegistrados();
         cargarDatosViaje();
         actualizarPrecioYDisponibilidad();
     }
@@ -122,12 +127,12 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         lblDireccionColoniaPasajero = new javax.swing.JLabel();
         txtDireccionColoniaPasajero = new javax.swing.JTextField();
         lblDireccionCiudadPasajero = new javax.swing.JLabel();
-        txtDireccionCiudadPasajero = new javax.swing.JTextField();
         lblDireccionEstadoPasajero = new javax.swing.JLabel();
-        txtDireccionEstadoPasajero = new javax.swing.JTextField();
         btnConfirmarCompraBoleto = new javax.swing.JButton();
         btnLimpiarPasajero = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        cmbDireccionCiudadPasajero = new javax.swing.JComboBox<>();
+        cmbDireccionEstadoPasajero = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -157,7 +162,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlCuerpo.setLayout(new java.awt.GridLayout());
+        pnlCuerpo.setLayout(new java.awt.GridLayout(1, 0));
 
         lblDatosViaje.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblDatosViaje.setText("Datos del viaje");
@@ -303,11 +308,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
 
         lblDireccionCiudadPasajero.setText("Ciudad *");
 
-        txtDireccionCiudadPasajero.addActionListener(this::txtDireccionCiudadPasajeroActionPerformed);
-
         lblDireccionEstadoPasajero.setText("Estado *");
-
-        txtDireccionEstadoPasajero.addActionListener(this::txtDireccionEstadoPasajeroActionPerformed);
 
         btnConfirmarCompraBoleto.setText("Confirmar compra");
         btnConfirmarCompraBoleto.addActionListener(this::btnConfirmarCompraBoletoActionPerformed);
@@ -318,6 +319,10 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
+        cmbDireccionCiudadPasajero.setEditable(true);
+
+        cmbDireccionEstadoPasajero.setEditable(true);
+
         javax.swing.GroupLayout pnlDatosPasajeroLayout = new javax.swing.GroupLayout(pnlDatosPasajero);
         pnlDatosPasajero.setLayout(pnlDatosPasajeroLayout);
         pnlDatosPasajeroLayout.setHorizontalGroup(
@@ -325,7 +330,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
             .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDatosPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDireccionEstadoPasajero)
+                    .addComponent(cmbDireccionEstadoPasajero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNombreCompletoPasajero)
                     .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
                         .addGroup(pnlDatosPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,9 +352,15 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                             .addComponent(txtCorreoPasajero)))
                     .addComponent(txtDireccionCalleNumeroPasajero)
                     .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
-                        .addComponent(txtDireccionColoniaPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnConfirmarCompraBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDireccionCiudadPasajero))
+                        .addComponent(btnLimpiarPasajero)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(btnCancelar))
+                    .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
+                        .addComponent(txtDireccionColoniaPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbDireccionCiudadPasajero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
                         .addGroup(pnlDatosPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDireccionCallePasajero)
@@ -358,13 +369,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                                 .addGap(109, 109, 109)
                                 .addComponent(lblDireccionCiudadPasajero))
                             .addComponent(lblDireccionEstadoPasajero))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlDatosPasajeroLayout.createSequentialGroup()
-                        .addComponent(btnConfirmarCompraBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLimpiarPasajero)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlDatosPasajeroLayout.setVerticalGroup(
@@ -404,11 +409,11 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlDatosPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDireccionColoniaPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDireccionCiudadPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbDireccionCiudadPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblDireccionEstadoPasajero)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDireccionEstadoPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbDireccionEstadoPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlDatosPasajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmarCompraBoleto)
@@ -452,6 +457,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                     = boletoServicio.generarBoleto(compraDTO);
 
             actualizarDisponibilidadViaje();
+            actualizarPrecioYDisponibilidad();
 
             int respuesta = JOptionPane.showConfirmDialog(
                     this,
@@ -464,6 +470,8 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
             );
 
             if (respuesta == JOptionPane.YES_OPTION) {
+                cargarCiudadesRegistradas();
+                cargarEstadosRegistrados();
                 limpiarDatosPasajero();
                 actualizarPrecioYDisponibilidad();
             } else {
@@ -508,14 +516,6 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDireccionColoniaPasajeroActionPerformed
 
-    private void txtDireccionCiudadPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionCiudadPasajeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDireccionCiudadPasajeroActionPerformed
-
-    private void txtDireccionEstadoPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionEstadoPasajeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDireccionEstadoPasajeroActionPerformed
-
     private void txtNombreCompletoPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCompletoPasajeroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreCompletoPasajeroActionPerformed
@@ -547,7 +547,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -581,6 +581,8 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmarCompraBoleto;
     private javax.swing.JButton btnLimpiarPasajero;
+    private javax.swing.JComboBox<String> cmbDireccionCiudadPasajero;
+    private javax.swing.JComboBox<String> cmbDireccionEstadoPasajero;
     private javax.swing.JComboBox<String> cmbSexoPasajero;
     private javax.swing.JComboBox<String> cmbTipoBoleto;
     private com.toedter.calendar.JDateChooser dchFechaSalidaViaje;
@@ -615,9 +617,7 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
     private javax.swing.JTextField txtCorreoPasajero;
     private javax.swing.JTextField txtDestinoViaje;
     private javax.swing.JTextField txtDireccionCalleNumeroPasajero;
-    private javax.swing.JTextField txtDireccionCiudadPasajero;
     private javax.swing.JTextField txtDireccionColoniaPasajero;
-    private javax.swing.JTextField txtDireccionEstadoPasajero;
     private javax.swing.JTextField txtDisponibilidadViaje;
     private javax.swing.JTextField txtNombreCompletoPasajero;
     private javax.swing.JTextField txtOrigenViaje;
@@ -782,8 +782,10 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         txtCorreoPasajero.setText("");
         txtDireccionCalleNumeroPasajero.setText("");
         txtDireccionColoniaPasajero.setText("");
-        txtDireccionCiudadPasajero.setText("");
-        txtDireccionEstadoPasajero.setText("");
+        cmbDireccionCiudadPasajero.setSelectedItem(null);
+        cmbDireccionCiudadPasajero.getEditor().setItem("");
+        cmbDireccionEstadoPasajero.setSelectedItem(null);
+        cmbDireccionEstadoPasajero.getEditor().setItem("");
 
         txtNombreCompletoPasajero.requestFocus();
     }
@@ -832,11 +834,11 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
         );
 
         compraDTO.setCiudad(
-                txtDireccionCiudadPasajero.getText()
+                obtenerTextoComboEditable(cmbDireccionCiudadPasajero)
         );
 
         compraDTO.setEstado(
-                txtDireccionEstadoPasajero.getText()
+                obtenerTextoComboEditable(cmbDireccionEstadoPasajero)
         );
 
         return compraDTO;
@@ -885,4 +887,79 @@ public class dlgComprarBoleto extends javax.swing.JDialog {
                 viajeActualizado.getDisponibilidadPrimeraClase()
         );
     }
+
+    /**
+     * Carga las ciudades registradas previamente en pasajeros.
+     */
+    private void cargarCiudadesRegistradas() {
+        try {
+            IPasajeroServicio pasajeroServicio = new PasajeroServicio();
+            List<String> ciudades = pasajeroServicio.consultarCiudadesRegistradas();
+
+            cmbDireccionCiudadPasajero.removeAllItems();
+
+            for (String ciudad : ciudades) {
+                cmbDireccionCiudadPasajero.addItem(ciudad);
+            }
+
+            cmbDireccionCiudadPasajero.setSelectedItem(null);
+            cmbDireccionCiudadPasajero.getEditor().setItem("");
+
+        } catch (ServicioException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No fue posible cargar las ciudades registradas.\n"
+                    + e.getMessage(),
+                    "Error al cargar ciudades",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Carga los estados registrados previamente en pasajeros.
+     */
+    private void cargarEstadosRegistrados() {
+        try {
+            IPasajeroServicio pasajeroServicio = new PasajeroServicio();
+            List<String> estados = pasajeroServicio.consultarEstadosRegistrados();
+
+            cmbDireccionEstadoPasajero.removeAllItems();
+
+            for (String estado : estados) {
+                cmbDireccionEstadoPasajero.addItem(estado);
+            }
+
+            cmbDireccionEstadoPasajero.setSelectedItem(null);
+            cmbDireccionEstadoPasajero.getEditor().setItem("");
+
+        } catch (ServicioException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No fue posible cargar los estados registrados.\n"
+                    + e.getMessage(),
+                    "Error al cargar estados",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Obtiene el texto escrito o seleccionado en un JComboBox editable.
+     *
+     * @param combo Combo editable.
+     * @return Texto capturado.
+     */
+    private String obtenerTextoComboEditable(
+            javax.swing.JComboBox<String> combo) {
+
+        Object valor = combo.getEditor().getItem();
+
+        if (valor == null) {
+            return null;
+        }
+
+        return valor.toString();
+    }
+
 }

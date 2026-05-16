@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 public class BoletoServicio implements IBoletoServicio {
 
     private static final Pattern PATRON_CORREO = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)+$"
     );
 
     private static final Pattern PATRON_TELEFONO_MEXICO = Pattern.compile(

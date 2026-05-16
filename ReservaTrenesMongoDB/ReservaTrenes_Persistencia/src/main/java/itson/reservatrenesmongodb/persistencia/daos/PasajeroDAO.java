@@ -16,6 +16,8 @@ import itson.reservatrenesmongodb.exceptions.PersistenciaException;
 import itson.reservatrenesmongodb.persistencia.interfaces.IPasajeroDAO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.bson.types.ObjectId;
 
 /**
@@ -32,6 +34,9 @@ public class PasajeroDAO implements IPasajeroDAO {
      * Nombre de la colección en MongoDB.
      */
     private static final String COLECCION = "pasajeros";
+
+    private static final String CAMPO_CIUDAD = "direccion.ciudad";
+    private static final String CAMPO_ESTADO = "direccion.estado";
 
     /**
      * Colección tipada de MongoDB utilizada por este DAO.
@@ -130,6 +135,60 @@ public class PasajeroDAO implements IPasajeroDAO {
     }
 
     /**
+     * Consulta las ciudades registradas en las direcciones de los pasajeros.
+     *
+     * @return Lista de ciudades sin duplicados y ordenadas alfabéticamente.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> buscarCiudadesRegistradas()
+            throws PersistenciaException {
+        try {
+            Set<String> ciudades = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+
+            collection.distinct(CAMPO_CIUDAD, String.class)
+                    .forEach(ciudad -> {
+                        if (ciudad != null && !ciudad.trim().isEmpty()) {
+                            ciudades.add(ciudad.trim());
+                        }
+                    });
+
+            return new ArrayList<>(ciudades);
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al consultar las ciudades registradas.", e);
+        }
+    }
+
+    /**
+     * Consulta los estados registrados en las direcciones de los pasajeros.
+     *
+     * @return Lista de estados sin duplicados y ordenados alfabéticamente.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> buscarEstadosRegistrados()
+            throws PersistenciaException {
+        try {
+            Set<String> estados = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+
+            collection.distinct(CAMPO_ESTADO, String.class)
+                    .forEach(estado -> {
+                        if (estado != null && !estado.trim().isEmpty()) {
+                            estados.add(estado.trim());
+                        }
+                    });
+
+            return new ArrayList<>(estados);
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al consultar los estados registrados.", e);
+        }
+    }
+
+    /**
      * Consulta todos los pasajeros registrados.
      *
      * @return Lista de pasajeros.
@@ -156,7 +215,8 @@ public class PasajeroDAO implements IPasajeroDAO {
      *
      * @param pasajero Pasajero con datos actualizados.
      * @return true si el pasajero fue actualizado, false si no se encontró.
-     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     * @throws PersistenciaException Si ocurre un error durante la
+     * actualización.
      */
     @Override
     public boolean actualizar(Pasajero pasajero) throws PersistenciaException {

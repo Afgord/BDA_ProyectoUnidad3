@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 public class PasajeroServicio implements IPasajeroServicio {
 
     private static final Pattern PATRON_CORREO = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)+$"
     );
 
     private static final Pattern PATRON_TELEFONO_MEXICO = Pattern.compile(
@@ -134,6 +134,42 @@ public class PasajeroServicio implements IPasajeroServicio {
         } catch (PersistenciaException e) {
             throw new ServicioException(
                     "No fue posible buscar el pasajero por correo.", e);
+        }
+    }
+
+    /**
+     * Consulta las ciudades registradas en pasajeros.
+     *
+     * @return Lista de ciudades registradas.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> consultarCiudadesRegistradas()
+            throws ServicioException {
+        try {
+            return pasajeroDAO.buscarCiudadesRegistradas();
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible consultar las ciudades registradas.", e);
+        }
+    }
+
+    /**
+     * Consulta los estados registrados en pasajeros.
+     *
+     * @return Lista de estados registrados.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<String> consultarEstadosRegistrados()
+            throws ServicioException {
+        try {
+            return pasajeroDAO.buscarEstadosRegistrados();
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible consultar los estados registrados.", e);
         }
     }
 
