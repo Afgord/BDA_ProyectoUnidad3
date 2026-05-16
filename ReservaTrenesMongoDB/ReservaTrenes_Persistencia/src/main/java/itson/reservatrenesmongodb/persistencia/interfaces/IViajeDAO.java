@@ -48,6 +48,27 @@ public interface IViajeDAO {
             throws PersistenciaException;
 
     /**
+     * Busca viajes programados disponibles según origen, destino, fecha y tipo
+     * de boleto solicitado.
+     *
+     * @param origenId Identificador de la locación de origen.
+     * @param destinoId Identificador de la locación de destino.
+     * @param inicioDia Inicio del día consultado.
+     * @param finDia Inicio del día siguiente.
+     * @param primeraClase Indica si se requiere disponibilidad en primera
+     * clase.
+     * @return Lista de viajes disponibles que cumplen los filtros.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    List<Viaje> buscarViajesDisponibles(
+            String origenId,
+            String destinoId,
+            Instant inicioDia,
+            Instant finDia,
+            boolean primeraClase
+    ) throws PersistenciaException;
+
+    /**
      * Consulta todos los viajes registrados.
      *
      * @return Lista de viajes.

@@ -231,7 +231,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarViajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarViajesActionPerformed
-        // TODO add your handling code here:
+        mostrarPanel(new frmConsultarViajes());
     }//GEN-LAST:event_btnConsultarViajesActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed

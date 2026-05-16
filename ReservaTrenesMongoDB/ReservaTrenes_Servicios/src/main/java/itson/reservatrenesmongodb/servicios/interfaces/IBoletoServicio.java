@@ -69,4 +69,14 @@ public interface IBoletoServicio {
      */
     List<BoletoDTO> consultarPorViaje(String viajeId)
             throws ServicioException;
+
+    /**
+     * Consulta el precio asociado a un tipo de boleto.
+     *
+     * @param tipoBoleto Tipo de boleto: GENERAL o PRIMERA_CLASE.
+     * @return Precio del boleto en formato de texto.
+     * @throws ServicioException Si el tipo de boleto no es válido.
+     */
+    String consultarPrecioTipoBoleto(String tipoBoleto)
+            throws ServicioException;
 }

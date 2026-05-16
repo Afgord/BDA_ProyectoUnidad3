@@ -18,6 +18,7 @@ import itson.reservatrenesmongodb.persistencia.interfaces.IViajeDAO;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -35,6 +36,17 @@ public class ViajeDAO implements IViajeDAO {
      */
     private static final String COLECCION = "viajes";
     private static final String CAMPO_ESTATUS = "estatus";
+    private static final String CAMPO_ORIGEN_ID
+            = "ruta.origen.locacion_id";
+
+    private static final String CAMPO_DESTINO_ID
+            = "ruta.destino.locacion_id";
+
+    private static final String CAMPO_DISPONIBILIDAD_GENERAL
+            = "disponibilidad.general";
+
+    private static final String CAMPO_DISPONIBILIDAD_PRIMERA_CLASE
+            = "disponibilidad.primera_clase";
 
     /**
      * Campo BSON que representa el identificador del tren dentro del documento
@@ -148,8 +160,8 @@ public class ViajeDAO implements IViajeDAO {
 
             collection.find(
                     Filters.and(
-                            Filters.eq(CAMPO_ESTATUS, "PROGRAMADO")
-                            ,Filters.gte(CAMPO_FECHA_HORA_SALIDA, Instant.now())
+                            Filters.eq(CAMPO_ESTATUS, "PROGRAMADO"),
+                            Filters.gte(CAMPO_FECHA_HORA_SALIDA, Instant.now())
                     )
             )
                     .sort(Sorts.ascending(CAMPO_FECHA_HORA_SALIDA))
@@ -161,6 +173,56 @@ public class ViajeDAO implements IViajeDAO {
         } catch (Exception e) {
             throw new PersistenciaException(
                     "Error al consultar los próximos viajes programados.", e);
+        }
+    }
+
+    /**
+     * Busca viajes programados disponibles según origen, destino, fecha y tipo
+     * de boleto solicitado.
+     *
+     * @param origenId Identificador de la locación de origen.
+     * @param destinoId Identificador de la locación de destino.
+     * @param inicioDia Inicio del día consultado.
+     * @param finDia Inicio del día siguiente.
+     * @param primeraClase Indica si se requiere disponibilidad en primera
+     * clase.
+     * @return Lista de viajes disponibles.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<Viaje> buscarViajesDisponibles(
+            String origenId,
+            String destinoId,
+            Instant inicioDia,
+            Instant finDia,
+            boolean primeraClase
+    ) throws PersistenciaException {
+        try {
+            List<Viaje> viajes = new ArrayList<>();
+
+            Bson filtroDisponibilidad = primeraClase
+                    ? Filters.gt(CAMPO_DISPONIBILIDAD_PRIMERA_CLASE, 0)
+                    : Filters.gt(CAMPO_DISPONIBILIDAD_GENERAL, 0);
+
+            collection.find(
+                    Filters.and(
+                            Filters.eq(CAMPO_ESTATUS, "PROGRAMADO"),
+                            Filters.eq(CAMPO_ORIGEN_ID, origenId),
+                            Filters.eq(CAMPO_DESTINO_ID, destinoId),
+                            Filters.gte(CAMPO_FECHA_HORA_SALIDA, inicioDia),
+                            Filters.lt(CAMPO_FECHA_HORA_SALIDA, finDia),
+                            Filters.gte(CAMPO_FECHA_HORA_SALIDA, Instant.now()),
+                            filtroDisponibilidad
+                    )
+            )
+                    .sort(Sorts.ascending(CAMPO_FECHA_HORA_SALIDA))
+                    .into(viajes);
+
+            return viajes;
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al consultar los viajes disponibles.", e);
         }
     }
 

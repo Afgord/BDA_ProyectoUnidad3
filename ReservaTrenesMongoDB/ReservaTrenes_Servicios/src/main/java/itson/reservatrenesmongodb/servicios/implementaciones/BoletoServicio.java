@@ -715,4 +715,29 @@ public class BoletoServicio implements IBoletoServicio {
 
         pasajeroDAO.actualizar(pasajero);
     }
+
+    /**
+     * Consulta el precio asociado a un tipo de boleto.
+     *
+     * @param tipoBoleto Tipo de boleto solicitado.
+     * @return Precio del boleto.
+     * @throws ServicioException Si el tipo de boleto no es válido.
+     */
+    @Override
+    public String consultarPrecioTipoBoleto(String tipoBoleto)
+            throws ServicioException {
+
+        if (estaVacio(tipoBoleto)) {
+            throw new ServicioException(
+                    "El tipo de boleto es obligatorio.");
+        }
+
+        validarTipoBoleto(tipoBoleto);
+
+        if (esTipoPrimeraClase(tipoBoleto)) {
+            return PRECIO_PRIMERA_CLASE.toPlainString();
+        }
+
+        return PRECIO_GENERAL.toPlainString();
+    }
 }

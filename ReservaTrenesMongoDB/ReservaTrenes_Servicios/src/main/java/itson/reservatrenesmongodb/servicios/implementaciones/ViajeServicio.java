@@ -15,6 +15,7 @@ import itson.reservatrenesmongodb.dominio.Viaje;
 import itson.reservatrenesmongodb.dominio.enums.EstatusTren;
 import itson.reservatrenesmongodb.dominio.enums.EstatusViaje;
 import itson.reservatrenesmongodb.dtos.ViajeDTO;
+import itson.reservatrenesmongodb.dtos.ViajeDisponibleDTO;
 import itson.reservatrenesmongodb.exceptions.PersistenciaException;
 import itson.reservatrenesmongodb.exceptions.ServicioException;
 import itson.reservatrenesmongodb.persistencia.daos.LocacionDAO;
@@ -25,6 +26,9 @@ import itson.reservatrenesmongodb.persistencia.interfaces.ITrenDAO;
 import itson.reservatrenesmongodb.persistencia.interfaces.IViajeDAO;
 import itson.reservatrenesmongodb.servicios.interfaces.IViajeServicio;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +148,7 @@ public class ViajeServicio implements IViajeServicio {
 
             for (Viaje viaje : viajes) {
                 viajesDTO.add(convertirADTO(viaje));
-            }            
+            }
 
             return viajesDTO;
 
@@ -154,6 +158,81 @@ public class ViajeServicio implements IViajeServicio {
         } catch (PersistenciaException e) {
             throw new ServicioException(
                     "No fue posible consultar los próximos viajes programados.", e);
+        }
+    }
+
+    /**
+     * Consulta viajes disponibles según los criterios enviados desde la
+     * pantalla de consulta de viajes.
+     *
+     * @param origenId Identificador de la locación de origen.
+     * @param destinoId Identificador de la locación de destino.
+     * @param fechaSalida Fecha de salida en formato yyyy-MM-dd.
+     * @param tipoBoleto Tipo de boleto solicitado.
+     * @return Lista de viajes disponibles.
+     * @throws ServicioException Si ocurre un error de validación o consulta.
+     */
+    @Override
+    public List<ViajeDisponibleDTO> consultarViajesDisponibles(
+            String origenId,
+            String destinoId,
+            String fechaSalida,
+            String tipoBoleto
+    ) throws ServicioException {
+        try {
+            validarBusquedaViajesDisponibles(
+                    origenId,
+                    destinoId,
+                    fechaSalida,
+                    tipoBoleto
+            );
+
+            String origenNormalizado = limpiarTexto(origenId);
+            String destinoNormalizado = limpiarTexto(destinoId);
+            String tipoNormalizado = limpiarTexto(tipoBoleto).toUpperCase();
+
+            LocalDate fecha = convertirStringALocalDate(fechaSalida);
+
+            if (fecha.isBefore(LocalDate.now())) {
+                throw new ServicioException(
+                        "La fecha de salida no puede ser anterior al día actual.");
+            }
+
+            ZoneId zonaLocal = ZoneId.systemDefault();
+
+            Instant inicioDia = fecha.atStartOfDay(zonaLocal).toInstant();
+            Instant finDia = fecha.plusDays(1)
+                    .atStartOfDay(zonaLocal)
+                    .toInstant();
+
+            boolean primeraClase = tipoNormalizado.equals("PRIMERA_CLASE");
+
+            List<Viaje> viajes = viajeDAO.buscarViajesDisponibles(
+                    origenNormalizado,
+                    destinoNormalizado,
+                    inicioDia,
+                    finDia,
+                    primeraClase
+            );
+
+            List<ViajeDisponibleDTO> viajesDisponibles = new ArrayList<>();
+
+            for (Viaje viaje : viajes) {
+                viajesDisponibles.add(convertirAViajeDisponibleDTO(viaje));
+            }
+
+            return viajesDisponibles;
+
+        } catch (ServicioException e) {
+            throw e;
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible consultar los viajes disponibles.", e);
+
+        } catch (Exception e) {
+            throw new ServicioException(
+                    "Ocurrió un error inesperado al consultar los viajes disponibles.", e);
         }
     }
 
@@ -554,5 +633,127 @@ public class ViajeServicio implements IViajeServicio {
 
     private boolean estaVacio(String texto) {
         return texto == null || texto.trim().isEmpty();
+    }
+
+    /**
+     * Valida los criterios de búsqueda de viajes disponibles.
+     *
+     * @param origenId Identificador de origen.
+     * @param destinoId Identificador de destino.
+     * @param fechaSalida Fecha seleccionada.
+     * @param tipoBoleto Tipo de boleto requerido.
+     * @throws ServicioException Si algún dato no es válido.
+     */
+    private void validarBusquedaViajesDisponibles(
+            String origenId,
+            String destinoId,
+            String fechaSalida,
+            String tipoBoleto
+    ) throws ServicioException {
+
+        if (estaVacio(origenId)) {
+            throw new ServicioException(
+                    "Debe seleccionar una locación de origen.");
+        }
+
+        if (estaVacio(destinoId)) {
+            throw new ServicioException(
+                    "Debe seleccionar una locación de destino.");
+        }
+
+        if (origenId.trim().equals(destinoId.trim())) {
+            throw new ServicioException(
+                    "El origen y el destino no pueden ser la misma locación.");
+        }
+
+        if (estaVacio(fechaSalida)) {
+            throw new ServicioException(
+                    "Debe seleccionar una fecha de salida.");
+        }
+
+        if (estaVacio(tipoBoleto)) {
+            throw new ServicioException(
+                    "Debe seleccionar un tipo de boleto.");
+        }
+
+        String tipoNormalizado = limpiarTexto(tipoBoleto).toUpperCase();
+
+        if (!tipoNormalizado.equals("GENERAL")
+                && !tipoNormalizado.equals("PRIMERA_CLASE")) {
+            throw new ServicioException(
+                    "El tipo de boleto no es válido. Valores permitidos: "
+                    + "GENERAL, PRIMERA_CLASE.");
+        }
+    }
+
+    /**
+     * Convierte una fecha en formato yyyy-MM-dd a LocalDate.
+     *
+     * @param fecha Fecha en texto.
+     * @return Fecha convertida.
+     * @throws ServicioException Si el formato no es válido.
+     */
+    private LocalDate convertirStringALocalDate(String fecha)
+            throws ServicioException {
+        try {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(fecha.trim(), formato);
+
+        } catch (Exception e) {
+            throw new ServicioException(
+                    "La fecha de búsqueda debe tener formato yyyy-MM-dd.");
+        }
+    }
+
+    /**
+     * Convierte una entidad Viaje a DTO para mostrarla en la consulta de viajes
+     * disponibles.
+     *
+     * @param viaje Viaje a convertir.
+     * @return DTO resumido para consulta.
+     */
+    private ViajeDisponibleDTO convertirAViajeDisponibleDTO(Viaje viaje) {
+        if (viaje == null) {
+            return null;
+        }
+
+        String trenNombre = null;
+        String origen = null;
+        String destino = null;
+
+        if (viaje.getTren() != null) {
+            trenNombre = viaje.getTren().getNombre();
+        }
+
+        if (viaje.getRuta() != null) {
+            if (viaje.getRuta().getOrigen() != null) {
+                origen = viaje.getRuta().getOrigen().getNombre();
+            }
+
+            if (viaje.getRuta().getDestino() != null) {
+                destino = viaje.getRuta().getDestino().getNombre();
+            }
+        }
+
+        int disponibilidadGeneral = 0;
+        int disponibilidadPrimeraClase = 0;
+
+        if (viaje.getDisponibilidad() != null) {
+            disponibilidadGeneral = viaje.getDisponibilidad().getGeneral();
+            disponibilidadPrimeraClase
+                    = viaje.getDisponibilidad().getPrimeraClase();
+        }
+
+        return new ViajeDisponibleDTO(
+                viaje.getId(),
+                trenNombre,
+                origen,
+                destino,
+                convertirInstantAString(viaje.getFechaHoraSalida()),
+                convertirInstantAString(viaje.getFechaHoraLlegadaEstimada()),
+                disponibilidadGeneral,
+                disponibilidadPrimeraClase,
+                convertirEstatusAString(viaje.getEstatus())
+        );
     }
 }
