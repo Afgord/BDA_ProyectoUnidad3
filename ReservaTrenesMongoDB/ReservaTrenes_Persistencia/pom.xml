@@ -13,5 +13,25 @@
     </parent>
 
     <artifactId>ReservaTrenes_Persistencia</artifactId>
+    
+    <dependencies>
+        <dependency>
+            <groupId>itson.reservatrenesmongodb</groupId>
+            <artifactId>ReservaTrenes_Dominio</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>itson.reservatrenesmongodb</groupId>
+            <artifactId>ReservaTrenes_Exceptions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>itson.reservatrenesmongodb</groupId>
+            <artifactId>ReservaTrenes_Conexion</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

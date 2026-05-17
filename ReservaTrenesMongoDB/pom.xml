@@ -15,6 +15,7 @@
         <module>ReservaTrenes_Exceptions</module>
         <module>ReservaTrenes_Dominio</module>
         <module>ReservaTrenes_DTOs</module>
+        <module>ReservaTrenes_Conexion</module>
         <module>ReservaTrenes_Persistencia</module>
         <module>ReservaTrenes_Servicios</module>
         <module>ReservaTrenes_Presentacion</module>
