@@ -48,7 +48,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="lblIconoCancelar" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoBuscarBoleto" min="-2" max="-2" attributes="0"/>
                               <Component id="lblIconoPasajeros" min="-2" max="-2" attributes="0"/>
                               <Component id="lblIconoTrenes" min="-2" max="-2" attributes="0"/>
                               <Component id="lblIconoLocaciones" min="-2" max="-2" attributes="0"/>
@@ -107,7 +107,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnBuscarBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblIconoBuscarBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -216,7 +216,7 @@
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblIconoCancelar">
+        <Component class="javax.swing.JLabel" name="lblIconoBuscarBoleto">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>

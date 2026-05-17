@@ -11,12 +11,15 @@ import itson.reservatrenesmongodb.servicios.implementaciones.DashboardServicio;
 import itson.reservatrenesmongodb.servicios.implementaciones.ViajeServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IDashboardServicio;
 import itson.reservatrenesmongodb.servicios.interfaces.IViajeServicio;
+import java.awt.Image;
+import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,10 +30,17 @@ import javax.swing.table.DefaultTableModel;
 public class frmDashboard extends javax.swing.JPanel {
 
     /**
+     * Ruta base de los iconos utilizados en la interfaz.
+     */
+    private static final String RUTA_ICONOS
+            = "/itson/reservatrenesmongodb/presentacion/recursos/iconos/";
+
+    /**
      * Creates new form frmDashboard
      */
     public frmDashboard() {
         initComponents();
+        cargarIconosTarjetas();
         aplicarEstiloTarjetas();
         cargarResumenDashboard();
         configurarTablaProximosViajes();
@@ -319,7 +329,6 @@ public class frmDashboard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblBoletosVendidos;
     private javax.swing.JLabel lblCancelaciones;
@@ -523,6 +532,64 @@ public class frmDashboard extends javax.swing.JPanel {
         } catch (DateTimeParseException e) {
             return fechaIso;
         }
+    }
+
+    /**
+     * Carga los iconos de las tarjetas del dashboard.
+     */
+    private void cargarIconosTarjetas() {
+        lblIconoViajesProgramados.setText("");
+        lblIconoViajesProgramados.setIcon(
+                cargarIcono("icono_viajes.png", 30, 30)
+        );
+
+        lblIconoBoletosVendidos.setText("");
+        lblIconoBoletosVendidos.setIcon(
+                cargarIcono("icono_boletos_vendidos.png", 30, 30)
+        );
+
+        lblIconoTrenesActivos.setText("");
+        lblIconoTrenesActivos.setIcon(
+                cargarIcono("icono_sistema_tren.png", 30, 30)
+        );
+
+        lblIconoCancelaciones.setText("");
+        lblIconoCancelaciones.setIcon(
+                cargarIcono("icono_cancelaciones.png", 30, 30)
+        );
+    }
+
+    /**
+     * Carga y redimensiona un icono desde los recursos del proyecto.
+     *
+     * @param nombreArchivo Nombre del archivo del icono.
+     * @param ancho Ancho deseado.
+     * @param alto Alto deseado.
+     * @return Icono redimensionado o null si no se encontró el recurso.
+     */
+    private ImageIcon cargarIcono(
+            String nombreArchivo,
+            int ancho,
+            int alto) {
+
+        URL recurso = getClass().getResource(RUTA_ICONOS + nombreArchivo);
+
+        if (recurso == null) {
+            System.err.println(
+                    "No se encontró el icono: " + nombreArchivo
+            );
+            return null;
+        }
+
+        ImageIcon iconoOriginal = new ImageIcon(recurso);
+
+        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
+                ancho,
+                alto,
+                Image.SCALE_SMOOTH
+        );
+
+        return new ImageIcon(imagenEscalada);
     }
 
 }

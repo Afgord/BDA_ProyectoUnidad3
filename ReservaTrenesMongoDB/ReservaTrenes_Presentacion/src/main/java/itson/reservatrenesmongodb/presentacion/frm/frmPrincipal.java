@@ -5,6 +5,9 @@
 package itson.reservatrenesmongodb.presentacion.frm;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -16,12 +19,18 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frmPrincipal.class.getName());
     private JScrollPane scrlContenido;
+    /**
+     * Ruta base de los iconos utilizados en la interfaz.
+     */
+    private static final String RUTA_ICONOS
+            = "/itson/reservatrenesmongodb/presentacion/recursos/iconos/";
 
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
         initComponents();
+        cargarIconosMenu();
         setTitle("Sistema de Reservaciones de Tren");
         setSize(1200, 700);
         setLocationRelativeTo(null);
@@ -68,7 +77,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnViajes = new javax.swing.JButton();
         lblIconoDashboard = new javax.swing.JLabel();
         lblIconoConsultar = new javax.swing.JLabel();
-        lblIconoCancelar = new javax.swing.JLabel();
+        lblIconoBuscarBoleto = new javax.swing.JLabel();
         lblIconoPasajeros = new javax.swing.JLabel();
         lblIconoTrenes = new javax.swing.JLabel();
         lblIconoLocaciones = new javax.swing.JLabel();
@@ -108,7 +117,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         lblIconoConsultar.setText("jLabel1");
 
-        lblIconoCancelar.setText("jLabel1");
+        lblIconoBuscarBoleto.setText("jLabel1");
 
         lblIconoPasajeros.setText("jLabel1");
 
@@ -127,7 +136,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMenuLateralLayout.createSequentialGroup()
                         .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblIconoCancelar)
+                            .addComponent(lblIconoBuscarBoleto)
                             .addComponent(lblIconoPasajeros)
                             .addComponent(lblIconoTrenes)
                             .addComponent(lblIconoLocaciones)
@@ -173,7 +182,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscarBoleto)
-                    .addComponent(lblIconoCancelar))
+                    .addComponent(lblIconoBuscarBoleto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPasajeros)
@@ -285,7 +294,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnPasajeros;
     private javax.swing.JButton btnTrenes;
     private javax.swing.JButton btnViajes;
-    private javax.swing.JLabel lblIconoCancelar;
+    private javax.swing.JLabel lblIconoBuscarBoleto;
     private javax.swing.JLabel lblIconoConsultar;
     private javax.swing.JLabel lblIconoDashboard;
     private javax.swing.JLabel lblIconoLocaciones;
@@ -313,6 +322,90 @@ public class frmPrincipal extends javax.swing.JFrame {
         // Cada vez que se abre una vista, se posiciona al inicio.
         scrlContenido.getVerticalScrollBar().setValue(0);
         scrlContenido.getHorizontalScrollBar().setValue(0);
+    }
+
+    /**
+     * Carga los iconos utilizados en el encabezado y menú lateral.
+     */
+    private void cargarIconosMenu() {
+        // Encabezado del sistema
+        lblIconoTren.setText("");
+        lblIconoTren.setIcon(
+                cargarIcono("icono_sistema_tren.png", 30, 30)
+        );
+
+        // Menú lateral
+        lblIconoDashboard.setText("");
+        lblIconoDashboard.setIcon(
+                cargarIcono("icono_dashboard.png", 18, 18)
+        );
+
+        lblIconoConsultar.setText("");
+        lblIconoConsultar.setIcon(
+                cargarIcono("icono_consultar_viajes.png", 18, 18)
+        );
+
+        /*
+     * Este label originalmente se llamaba lblIconoCancelar,
+     * pero ahora corresponde a la opción Buscar boleto.
+         */
+        lblIconoBuscarBoleto.setText("");
+        lblIconoBuscarBoleto.setIcon(
+                cargarIcono("icono_buscar_boleto.png", 18, 18)
+        );
+
+        lblIconoPasajeros.setText("");
+        lblIconoPasajeros.setIcon(
+                cargarIcono("icono_pasajeros.png", 18, 18)
+        );
+
+        lblIconoTrenes.setText("");
+        lblIconoTrenes.setIcon(
+                cargarIcono("icono_sistema_tren.png", 18, 18)
+        );
+
+        lblIconoLocaciones.setText("");
+        lblIconoLocaciones.setIcon(
+                cargarIcono("icono_locaciones.png", 18, 18)
+        );
+
+        lblIconoViajes.setText("");
+        lblIconoViajes.setIcon(
+                cargarIcono("icono_viajes.png", 18, 18)
+        );
+    }
+
+    /**
+     * Carga y redimensiona un icono desde los recursos del proyecto.
+     *
+     * @param nombreArchivo Nombre del archivo del icono.
+     * @param ancho Ancho deseado.
+     * @param alto Alto deseado.
+     * @return Icono redimensionado o null si no se encontró el recurso.
+     */
+    private ImageIcon cargarIcono(
+            String nombreArchivo,
+            int ancho,
+            int alto) {
+
+        URL recurso = getClass().getResource(RUTA_ICONOS + nombreArchivo);
+
+        if (recurso == null) {
+            System.err.println(
+                    "No se encontró el icono: " + nombreArchivo
+            );
+            return null;
+        }
+
+        ImageIcon iconoOriginal = new ImageIcon(recurso);
+
+        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
+                ancho,
+                alto,
+                Image.SCALE_SMOOTH
+        );
+
+        return new ImageIcon(imagenEscalada);
     }
 
 }
