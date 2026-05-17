@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -131,6 +133,80 @@ public class PasajeroDAO implements IPasajeroDAO {
 
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar el pasajero por correo.", e);
+        }
+    }
+
+    /**
+     * Busca pasajeros por coincidencia parcial en teléfono o correo
+     * electrónico.
+     *
+     * Para el teléfono se eliminan caracteres no numéricos del criterio
+     * capturado. Para el correo se realiza una búsqueda insensible a mayúsculas
+     * y minúsculas.
+     *
+     * @param criterio Texto a buscar en teléfono o correo.
+     * @return Lista de pasajeros coincidentes.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    @Override
+    public List<Pasajero> buscarPorTelefonoOCorreo(String criterio)
+            throws PersistenciaException {
+        try {
+            if (criterio == null || criterio.trim().isEmpty()) {
+                return buscarTodos();
+            }
+
+            String criterioLimpio = criterio.trim();
+            String criterioTelefono = criterioLimpio.replaceAll("\\D", "");
+
+            List<Bson> filtros = new ArrayList<>();
+
+            /*
+         * Búsqueda parcial por correo.
+         * Se utiliza Pattern.quote para evitar que caracteres como "." o "@"
+         * sean interpretados como operadores de expresión regular.
+             */
+            filtros.add(
+                    Filters.regex(
+                            "contacto.correo",
+                            Pattern.compile(
+                                    Pattern.quote(criterioLimpio),
+                                    Pattern.CASE_INSENSITIVE
+                            )
+                    )
+            );
+
+            /*
+         * Búsqueda parcial por teléfono.
+         * Solo se agrega si el usuario escribió al menos un dígito.
+             */
+            if (!criterioTelefono.isEmpty()) {
+                filtros.add(
+                        Filters.regex(
+                                "contacto.telefono",
+                                Pattern.compile(Pattern.quote(criterioTelefono))
+                        )
+                );
+            }
+
+            Bson filtroBusqueda = filtros.size() == 1
+                    ? filtros.get(0)
+                    : Filters.or(filtros);
+
+            List<Pasajero> pasajeros = new ArrayList<>();
+
+            for (Pasajero pasajero : collection.find(filtroBusqueda)) {
+                pasajeros.add(pasajero);
+            }
+
+            return pasajeros;
+
+        } catch (PersistenciaException e) {
+            throw e;
+
+        } catch (Exception e) {
+            throw new PersistenciaException(
+                    "Error al buscar pasajeros por teléfono o correo.", e);
         }
     }
 

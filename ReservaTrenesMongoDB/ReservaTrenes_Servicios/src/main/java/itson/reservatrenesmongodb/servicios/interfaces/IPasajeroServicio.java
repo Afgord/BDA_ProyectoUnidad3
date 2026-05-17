@@ -25,6 +25,17 @@ public interface IPasajeroServicio {
     PasajeroDTO buscarPorCorreo(String correo) throws ServicioException;
 
     /**
+     * Consulta pasajeros cuyo teléfono o correo electrónico coincidan
+     * parcialmente con el criterio capturado.
+     *
+     * @param criterio Texto a buscar en teléfono o correo.
+     * @return Lista de pasajeros coincidentes.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    List<PasajeroDTO> consultarPorTelefonoOCorreo(String criterio)
+            throws ServicioException;
+
+    /**
      * Consulta las ciudades registradas previamente en pasajeros.
      *
      * @return Lista de ciudades disponibles.

@@ -138,6 +138,43 @@ public class PasajeroServicio implements IPasajeroServicio {
     }
 
     /**
+     * Consulta pasajeros por coincidencia parcial en teléfono o correo
+     * electrónico.
+     *
+     * Si el criterio está vacío, devuelve todos los pasajeros registrados.
+     *
+     * @param criterio Texto a buscar en teléfono o correo.
+     * @return Lista de pasajeros coincidentes.
+     * @throws ServicioException Si ocurre un error durante la consulta.
+     */
+    @Override
+    public List<PasajeroDTO> consultarPorTelefonoOCorreo(String criterio)
+            throws ServicioException {
+        try {
+            if (estaVacio(criterio)) {
+                return consultarTodos();
+            }
+
+            String criterioLimpio = limpiarTexto(criterio);
+
+            List<Pasajero> pasajeros
+                    = pasajeroDAO.buscarPorTelefonoOCorreo(criterioLimpio);
+
+            List<PasajeroDTO> pasajerosDTO = new ArrayList<>();
+
+            for (Pasajero pasajero : pasajeros) {
+                pasajerosDTO.add(convertirADTO(pasajero));
+            }
+
+            return pasajerosDTO;
+
+        } catch (PersistenciaException e) {
+            throw new ServicioException(
+                    "No fue posible buscar pasajeros por teléfono o correo.", e);
+        }
+    }
+
+    /**
      * Consulta las ciudades registradas en pasajeros.
      *
      * @return Lista de ciudades registradas.

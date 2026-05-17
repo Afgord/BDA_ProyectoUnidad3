@@ -11,6 +11,9 @@ import itson.reservatrenesmongodb.servicios.interfaces.IPasajeroServicio;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,11 +23,25 @@ import javax.swing.table.DefaultTableModel;
 public class frmPasajeros extends javax.swing.JPanel {
 
     /**
+     * Servicio de pasajeros utilizado por el formulario.
+     */
+    private final IPasajeroServicio pasajeroServicio;
+
+    /**
+     * Temporizador que retrasa brevemente la búsqueda dinámica para evitar
+     * consultar MongoDB en cada pulsación inmediata del teclado.
+     */
+    private Timer temporizadorBusquedaPasajeros;
+
+    /**
      * Creates new form frmPasajeros
      */
     public frmPasajeros() {
+        this.pasajeroServicio = new PasajeroServicio();
+
         initComponents();
         configurarTablaPasajeros();
+        configurarBusquedaDinamica();
         cargarPasajeros();
     }
 
@@ -48,6 +65,9 @@ public class frmPasajeros extends javax.swing.JPanel {
         tblListaPasajeros = new javax.swing.JTable();
         pnlBotonHistorial = new javax.swing.JPanel();
         btnMostrarHistorial = new javax.swing.JButton();
+        pnlBuscarPasajeros = new javax.swing.JPanel();
+        lblBuscarPasajero = new javax.swing.JLabel();
+        txtBuscarPasajero = new javax.swing.JTextField();
 
         lblTituloPasajeros.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTituloPasajeros.setText("Pasajeros");
@@ -141,6 +161,31 @@ public class frmPasajeros extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        lblBuscarPasajero.setText("Buscar por teléfono o correo: ");
+
+        txtBuscarPasajero.addActionListener(this::txtBuscarPasajeroActionPerformed);
+
+        javax.swing.GroupLayout pnlBuscarPasajerosLayout = new javax.swing.GroupLayout(pnlBuscarPasajeros);
+        pnlBuscarPasajeros.setLayout(pnlBuscarPasajerosLayout);
+        pnlBuscarPasajerosLayout.setHorizontalGroup(
+            pnlBuscarPasajerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBuscarPasajerosLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(lblBuscarPasajero)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtBuscarPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlBuscarPasajerosLayout.setVerticalGroup(
+            pnlBuscarPasajerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBuscarPasajerosLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(pnlBuscarPasajerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBuscarPasajero)
+                    .addComponent(txtBuscarPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,8 +195,9 @@ public class frmPasajeros extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlBotonHistorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlTituloPasajeros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scrlListaPasajeros)
                     .addComponent(pnlContadorPasajeros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrlListaPasajeros))
+                    .addComponent(pnlBuscarPasajeros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -160,12 +206,14 @@ public class frmPasajeros extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(pnlTituloPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlBuscarPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlContadorPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrlListaPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrlListaPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlBotonHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -200,19 +248,29 @@ public class frmPasajeros extends javax.swing.JPanel {
         dialogo.setVisible(true);
     }//GEN-LAST:event_btnMostrarHistorialActionPerformed
 
+    private void txtBuscarPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarPasajeroActionPerformed
+        if (temporizadorBusquedaPasajeros.isRunning()) {
+            temporizadorBusquedaPasajeros.stop();
+        }
+
+        buscarPasajerosDinamicamente();
+    }//GEN-LAST:event_txtBuscarPasajeroActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMostrarHistorial;
+    private javax.swing.JLabel lblBuscarPasajero;
     private javax.swing.JLabel lblContadorPasajeros;
     private javax.swing.JLabel lblIconoPasajeros;
     private javax.swing.JLabel lblListaPasajeros;
     private javax.swing.JLabel lblSubtituloPasajeros;
     private javax.swing.JLabel lblTituloPasajeros;
     private javax.swing.JPanel pnlBotonHistorial;
+    private javax.swing.JPanel pnlBuscarPasajeros;
     private javax.swing.JPanel pnlContadorPasajeros;
     private javax.swing.JPanel pnlTituloPasajeros;
     private javax.swing.JScrollPane scrlListaPasajeros;
     private javax.swing.JTable tblListaPasajeros;
+    private javax.swing.JTextField txtBuscarPasajero;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -259,28 +317,8 @@ public class frmPasajeros extends javax.swing.JPanel {
      */
     private void cargarPasajeros() {
         try {
-            IPasajeroServicio pasajeroServicio = new PasajeroServicio();
             List<PasajeroDTO> pasajeros = pasajeroServicio.consultarTodos();
-
-            DefaultTableModel modelo
-                    = (DefaultTableModel) tblListaPasajeros.getModel();
-
-            modelo.setRowCount(0);
-
-            for (PasajeroDTO pasajero : pasajeros) {
-                modelo.addRow(new Object[]{
-                    pasajero.getId(),
-                    pasajero.getNombreCompleto(),
-                    pasajero.getTelefono(),
-                    pasajero.getCorreo(),
-                    pasajero.getCiudad(),
-                    pasajero.getViajesRegistrados()
-                });
-            }
-
-            lblContadorPasajeros.setText(
-                    pasajeros.size() + " pasajeros registrados"
-            );
+            mostrarPasajerosEnTabla(pasajeros, false);
 
         } catch (ServicioException e) {
             JOptionPane.showMessageDialog(
@@ -289,6 +327,118 @@ public class frmPasajeros extends javax.swing.JPanel {
                     + e.getMessage(),
                     "Error al cargar pasajeros",
                     JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Configura la búsqueda dinámica de pasajeros conforme el usuario escribe.
+     */
+    private void configurarBusquedaDinamica() {
+        temporizadorBusquedaPasajeros = new Timer(
+                350,
+                e -> buscarPasajerosDinamicamente()
+        );
+
+        temporizadorBusquedaPasajeros.setRepeats(false);
+
+        txtBuscarPasajero.getDocument().addDocumentListener(
+                new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                reiniciarTemporizadorBusqueda();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                reiniciarTemporizadorBusqueda();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                reiniciarTemporizadorBusqueda();
+            }
+        });
+    }
+
+    /**
+     * Reinicia el temporizador de búsqueda cada vez que cambia el texto.
+     */
+    private void reiniciarTemporizadorBusqueda() {
+        if (temporizadorBusquedaPasajeros.isRunning()) {
+            temporizadorBusquedaPasajeros.stop();
+        }
+
+        temporizadorBusquedaPasajeros.start();
+    }
+
+    /**
+     * Busca pasajeros por teléfono o correo y actualiza la tabla.
+     */
+    private void buscarPasajerosDinamicamente() {
+        try {
+            String criterio = txtBuscarPasajero.getText();
+
+            List<PasajeroDTO> pasajeros
+                    = pasajeroServicio.consultarPorTelefonoOCorreo(criterio);
+
+            boolean hayBusquedaActiva
+                    = criterio != null && !criterio.trim().isEmpty();
+
+            mostrarPasajerosEnTabla(pasajeros, hayBusquedaActiva);
+
+        } catch (ServicioException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No fue posible buscar los pasajeros.\n"
+                    + e.getMessage(),
+                    "Error al buscar pasajeros",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Muestra en la tabla la lista de pasajeros indicada y actualiza el
+     * contador.
+     *
+     * @param pasajeros Lista de pasajeros que se desea mostrar.
+     * @param resultadoBusqueda true si los datos provienen de una búsqueda,
+     * false si corresponde a la carga general.
+     */
+    private void mostrarPasajerosEnTabla(
+            List<PasajeroDTO> pasajeros,
+            boolean resultadoBusqueda) {
+
+        DefaultTableModel modelo
+                = (DefaultTableModel) tblListaPasajeros.getModel();
+
+        modelo.setRowCount(0);
+
+        for (PasajeroDTO pasajero : pasajeros) {
+            modelo.addRow(new Object[]{
+                pasajero.getId(),
+                pasajero.getNombreCompleto(),
+                pasajero.getTelefono(),
+                pasajero.getCorreo(),
+                pasajero.getCiudad(),
+                pasajero.getViajesRegistrados()
+            });
+        }
+
+        if (resultadoBusqueda) {
+            lblContadorPasajeros.setText(
+                    pasajeros.size()
+                    + (pasajeros.size() == 1
+                    ? " pasajero encontrado"
+                    : " pasajeros encontrados")
+            );
+        } else {
+            lblContadorPasajeros.setText(
+                    pasajeros.size()
+                    + (pasajeros.size() == 1
+                    ? " pasajero registrado"
+                    : " pasajeros registrados")
             );
         }
     }

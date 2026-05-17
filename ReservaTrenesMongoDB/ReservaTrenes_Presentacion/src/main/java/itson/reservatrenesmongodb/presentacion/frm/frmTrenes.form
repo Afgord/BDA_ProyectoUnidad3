@@ -40,7 +40,7 @@
                   <Group type="102" attributes="0">
                       <Component id="pnlListaTrenes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="scrlPaneListaTrenes" min="-2" pref="371" max="-2" attributes="0"/>
+                      <Component id="scrlPaneListaTrenes" min="-2" pref="220" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlEditarEliminarTren" min="-2" max="-2" attributes="0"/>
                   </Group>

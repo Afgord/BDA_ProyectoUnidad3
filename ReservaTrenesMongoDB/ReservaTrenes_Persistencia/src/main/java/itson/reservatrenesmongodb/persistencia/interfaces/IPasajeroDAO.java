@@ -46,6 +46,17 @@ public interface IPasajeroDAO {
     Pasajero buscarPorCorreo(String correo) throws PersistenciaException;
 
     /**
+     * Busca pasajeros cuyo teléfono o correo electrónico coincidan parcialmente
+     * con el criterio capturado.
+     *
+     * @param criterio Texto a buscar en teléfono o correo.
+     * @return Lista de pasajeros coincidentes.
+     * @throws PersistenciaException Si ocurre un error durante la búsqueda.
+     */
+    List<Pasajero> buscarPorTelefonoOCorreo(String criterio)
+            throws PersistenciaException;
+
+    /**
      * Consulta todos los pasajeros registrados.
      *
      * @return Lista de pasajeros.
