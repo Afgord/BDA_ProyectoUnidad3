@@ -61,15 +61,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         lblSubtituloSistema = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JButton();
         btnConsultarViajes = new javax.swing.JButton();
-        btnComprarBoleto = new javax.swing.JButton();
-        btnCancelarBoleto = new javax.swing.JButton();
+        btnBuscarBoleto = new javax.swing.JButton();
         btnPasajeros = new javax.swing.JButton();
         btnTrenes = new javax.swing.JButton();
         btnLocaciones = new javax.swing.JButton();
         btnViajes = new javax.swing.JButton();
         lblIconoDashboard = new javax.swing.JLabel();
         lblIconoConsultar = new javax.swing.JLabel();
-        lblIconoComprar = new javax.swing.JLabel();
         lblIconoCancelar = new javax.swing.JLabel();
         lblIconoPasajeros = new javax.swing.JLabel();
         lblIconoTrenes = new javax.swing.JLabel();
@@ -91,11 +89,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnConsultarViajes.setText("Consultar viajes");
         btnConsultarViajes.addActionListener(this::btnConsultarViajesActionPerformed);
 
-        btnComprarBoleto.setText("Comprar boletos");
-        btnComprarBoleto.addActionListener(this::btnComprarBoletoActionPerformed);
-
-        btnCancelarBoleto.setText("Cancelar boletos");
-        btnCancelarBoleto.addActionListener(this::btnCancelarBoletoActionPerformed);
+        btnBuscarBoleto.setText("Buscar boleto");
+        btnBuscarBoleto.addActionListener(this::btnBuscarBoletoActionPerformed);
 
         btnPasajeros.setText("Pasajeros");
         btnPasajeros.addActionListener(this::btnPasajerosActionPerformed);
@@ -113,8 +108,6 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         lblIconoConsultar.setText("jLabel1");
 
-        lblIconoComprar.setText("jLabel1");
-
         lblIconoCancelar.setText("jLabel1");
 
         lblIconoPasajeros.setText("jLabel1");
@@ -131,31 +124,34 @@ public class frmPrincipal extends javax.swing.JFrame {
             pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLateralLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblIconoTren)
-                    .addComponent(lblIconoDashboard)
-                    .addComponent(lblIconoConsultar)
-                    .addComponent(lblIconoComprar)
-                    .addComponent(lblIconoCancelar)
-                    .addComponent(lblIconoPasajeros)
-                    .addComponent(lblIconoTrenes)
-                    .addComponent(lblIconoLocaciones)
-                    .addComponent(lblIconoViajes))
-                .addGap(18, 18, 18)
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSubtituloSistema)
-                    .addComponent(lblTituloSistema)
-                    .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnConsultarViajes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDashboard, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnComprarBoleto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnViajes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLocaciones, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTrenes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPasajeros, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelarBoleto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addGroup(pnlMenuLateralLayout.createSequentialGroup()
+                        .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblIconoCancelar)
+                            .addComponent(lblIconoPasajeros)
+                            .addComponent(lblIconoTrenes)
+                            .addComponent(lblIconoLocaciones)
+                            .addComponent(lblIconoViajes))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnViajes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLocaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(btnBuscarBoleto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnPasajeros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTrenes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlMenuLateralLayout.createSequentialGroup()
+                        .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblIconoTren)
+                            .addComponent(lblIconoDashboard)
+                            .addComponent(lblIconoConsultar))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSubtituloSistema)
+                            .addComponent(lblTituloSistema)
+                            .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnConsultarViajes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                                .addComponent(btnDashboard, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGap(32, 32, 32))
         );
         pnlMenuLateralLayout.setVerticalGroup(
             pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,11 +172,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(lblIconoConsultar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnComprarBoleto)
-                    .addComponent(lblIconoComprar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelarBoleto)
+                    .addComponent(btnBuscarBoleto)
                     .addComponent(lblIconoCancelar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -198,7 +190,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(pnlMenuLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnViajes)
                     .addComponent(lblIconoViajes))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlContenidoLayout = new javax.swing.GroupLayout(pnlContenido);
@@ -239,13 +231,9 @@ public class frmPrincipal extends javax.swing.JFrame {
         mostrarPanel(new frmDashboard());
     }//GEN-LAST:event_btnDashboardActionPerformed
 
-    private void btnComprarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarBoletoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnComprarBoletoActionPerformed
-
-    private void btnCancelarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarBoletoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelarBoletoActionPerformed
+    private void btnBuscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarBoletoActionPerformed
+        mostrarPanel(new frmBuscarBoleto());
+    }//GEN-LAST:event_btnBuscarBoletoActionPerformed
 
     private void btnPasajerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasajerosActionPerformed
         mostrarPanel(new frmPasajeros());
@@ -271,7 +259,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -290,8 +278,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarBoleto;
-    private javax.swing.JButton btnComprarBoleto;
+    private javax.swing.JButton btnBuscarBoleto;
     private javax.swing.JButton btnConsultarViajes;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnLocaciones;
@@ -299,7 +286,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnTrenes;
     private javax.swing.JButton btnViajes;
     private javax.swing.JLabel lblIconoCancelar;
-    private javax.swing.JLabel lblIconoComprar;
     private javax.swing.JLabel lblIconoConsultar;
     private javax.swing.JLabel lblIconoDashboard;
     private javax.swing.JLabel lblIconoLocaciones;

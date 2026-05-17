@@ -45,35 +45,42 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="lblIconoTren" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoDashboard" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoConsultar" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoComprar" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoCancelar" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoPasajeros" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoTrenes" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoLocaciones" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoViajes" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblSubtituloSistema" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTituloSistema" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="btnConsultarViajes" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnDashboard" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnComprarBoleto" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="lblIconoCancelar" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoPasajeros" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoTrenes" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoLocaciones" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoViajes" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnViajes" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnLocaciones" alignment="0" pref="119" max="32767" attributes="0"/>
+                              <Component id="btnBuscarBoleto" max="32767" attributes="0"/>
+                              <Component id="btnPasajeros" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnTrenes" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="btnViajes" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnLocaciones" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnTrenes" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnPasajeros" alignment="0" max="32767" attributes="0"/>
-                          <Component id="btnCancelarBoleto" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="lblIconoTren" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoDashboard" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblIconoConsultar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblSubtituloSistema" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTituloSistema" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="btnConsultarViajes" alignment="0" pref="119" max="32767" attributes="0"/>
+                                  <Component id="btnDashboard" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -99,12 +106,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnComprarBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblIconoComprar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnCancelarBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBuscarBoleto" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblIconoCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -127,7 +129,7 @@
                       <Component id="btnViajes" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblIconoViajes" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="106" max="32767" attributes="0"/>
+                  <EmptySpace pref="141" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -164,20 +166,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarViajesActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnComprarBoleto">
+        <Component class="javax.swing.JButton" name="btnBuscarBoleto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Comprar boletos"/>
+            <Property name="text" type="java.lang.String" value="Buscar boleto"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComprarBoletoActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnCancelarBoleto">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar boletos"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarBoletoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarBoletoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPasajeros">
@@ -218,11 +212,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblIconoConsultar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblIconoComprar">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
